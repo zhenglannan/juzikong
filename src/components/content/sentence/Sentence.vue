@@ -9,23 +9,40 @@
       </a>
     </header>
     <div class="scenbody">
-      <p class="scenbody-post">sssssssssssssssssssssssssssssssssssssssssssss</p>
+      <p class="scenbody-post">睡着的时候一定要多做些梦，因为一生那么短，偏偏欲望又那么长。</p>
       <div class="scenbody-from">
         <span class="author">戴维・洛奇</span>
         <span class="work">《救火英雄》</span>
       </div>
     </div>
     <footer class="footer">
-<div>
-  
-</div>
+      <div class="functions clearfix">
+        <span>
+          <a>
+            <img class="message" src="~assets/img/home/message.svg" />
+            <span class="number">0</span>
+          </a>
+        </span>
+        <span>
+          <a>
+            <img class="love" src="~assets/img/home/love.svg" />
+            <span class="number">0</span>
+          </a>
+        </span>
+        <span class="right">
+          <a>
+            <img class="addAlbum" src="~assets/img/home/addAlbum.svg" />
+          </a>
+        </span>
+      </div>
+      <slot name="footer"></slot>
     </footer>
   </article>
 </template>
 
 <script>
 export default {
-  name: "HomeSentence",
+  name: "Sentence",
   data() {
     return {};
   },
@@ -39,6 +56,7 @@ export default {
   border: 1px solid #e6e6e6;
   background-color: #fff;
   border-radius: 2px;
+  margin-bottom: 20px;
 }
 header {
   display: flex;
@@ -75,7 +93,30 @@ header img {
   margin-left: 5px;
   color: #222;
 }
-.footer{
+.footer {
   padding: 0 16px;
+  /* margin-bottom: 20px; */
 }
+.functions > span {
+  display: inline-block;
+  vertical-align: bottom;
+  padding: 0 8px;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.number {
+  /* position: relative; */
+  /* top: -2px; */
+  margin-left: 4px;
+  font-size: 14px;
+}
+.message,
+.love,
+.addAlbum {
+  vertical-align: middle;
+  display: inline-block;
+  width: 25px;
+}
+
 </style>

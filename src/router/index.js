@@ -5,6 +5,8 @@ const Home =()=>import("views/home/Home")
 const Discovery =()=>import("views/discovery/Discovery") 
 const Channels =()=>import("views/channels/Channels") 
 const Profile =()=>import("views/profile/Profile") 
+const CategoriesWork =()=>import("views/channels/children/children/CategoriesWork") 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,6 +25,10 @@ const routes = [
   }, {
     path: '/profile',
     component: Profile
+  }, 
+  {
+    path: '/categories/work/:workId',
+    component: CategoriesWork
   }, 
 ]
 

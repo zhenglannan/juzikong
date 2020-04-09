@@ -1,12 +1,20 @@
 ﻿@import "./reset.css";
 
-:root {
+/* :root {
   --color-text: #666;
   --color-high-text: #ff5777;
   --color-tint: #ff8198;
   --color-background: #fff;
   --font-size: 14px;
   --line-height: 1.5;
+} */
+.container{
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
 }
-
+[class*="el-col"] {
+  float: left;
+  box-sizing: border-box;
+}
 

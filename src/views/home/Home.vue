@@ -1,6 +1,6 @@
 <template>
-  <div id="home">
-    <HomeCategory :title="['散文','书籍','电影','动漫','连续剧','小说']"></HomeCategory>
+  <div id="home" class="container">
+    <HomeCategory :title="['电影台词','小说摘抄','散文美句','动漫台词','连续剧台词','书籍名句']"></HomeCategory>
     <div class="hometab">
       <span>推荐</span>
       <span class="twotab">热门</span>
@@ -27,16 +27,6 @@ export default {
 </script>
 
 <style scoped>
-/* padding: 0; */
-#home {
-  width: 100%;
-  max-width: 1000px;
-  margin-top: 40px;
-  margin-left: auto;
-  margin-right: auto;
-  /* display: flex; */
-  /* justify-content: center; */
-}
 .hometab {
   margin-bottom: 15px;
   color: grey;

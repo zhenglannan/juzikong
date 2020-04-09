@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <NavBar class="navbar"></NavBar>
-     <keep-alive>
+     <!-- <keep-alive> -->
       <router-view></router-view>
-    </keep-alive>
+    <!-- </keep-alive> -->
   </div>
 </template>
 
@@ -20,9 +20,6 @@ export default {
 <style>
 @import "assets/css/base.css";
 .navbar {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
+  
 }
 </style>
