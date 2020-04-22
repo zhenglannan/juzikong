@@ -1,11 +1,6 @@
 <template>
   <div class="homeSentenceList">
-    <Sentence>
-      <section slot="footer">
-        <input type="text" placeholder="我也评论一句..." class="comment" />
-      </section>
-    </Sentence>
-    <Sentence>
+    <Sentence v-for="(item,index) in list" :key="item._id" :singalItem=item>
       <section slot="footer">
         <input type="text" placeholder="我也评论一句..." class="comment" />
       </section>
@@ -20,10 +15,13 @@ export default {
   data() {
     return {};
   },
+  props:{
+    list:Array
+  },
   components: {
     Sentence
   },
-  methods: {}
+  methods: {},
 };
 </script>
 

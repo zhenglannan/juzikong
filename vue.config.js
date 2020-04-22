@@ -15,6 +15,10 @@ module.exports = {
         'views': '@/views',
         // 'common':'@/common'
       }
-    }
+    },
+	devServer: {
+		//代理多个路径特定到同一个 target 下
+     proxy:'http://127.0.0.1:3000/'
+  }
   }
 }

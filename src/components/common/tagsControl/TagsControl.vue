@@ -19,27 +19,28 @@ export default {
   props: {
     tags: {
       type: Array,
-      default() {
-        return [
-          "热门",
-          "最新",
-          "原创",
-          "精选",
-          "搞笑",
-          "语录",
-          "生活",
-          "歌词",
-          "电影",
-          "英语",
-          "随笔",
-          "诗词"
-        ];
-      }
+      // default() {
+      //   return [
+      //     "热门",
+      //     "最新",
+      //     "原创",
+      //     "精选",
+      //     "搞笑",
+      //     "语录",
+      //     "生活",
+      //     "歌词",
+      //     "电影",
+      //     "英语",
+      //     "随笔",
+      //     "诗词"
+      //   ];
+      // }
     }
   },
   methods: {
     selectTab(index){
       this.currentIndex=index;
+      this.$emit('selectTab',index)
     }
   }
 };

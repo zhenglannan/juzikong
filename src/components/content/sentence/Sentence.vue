@@ -1,32 +1,37 @@
 <template>
   <article class="scentence">
-    <header>
-      <a>
-        <img src="~assets/img/favicon.png" alt />
-      </a>
-      <a>
-        <span>用户名</span>
-      </a>
-    </header>
+    <!-- 头部插槽 -->
+    <slot name="header" v-if="singalItem.creator">
+      <header>
+        <a>
+          <img :src="singalItem.creator.avator" alt />
+        </a>
+        <a>
+          <span>{{singalItem.creator.username}}</span>
+        </a>
+      </header>
+    </slot>
+
     <div class="scenbody">
-      <p class="scenbody-post">睡着的时候一定要多做些梦，因为一生那么短，偏偏欲望又那么长。</p>
+      <p class="scenbody-post">{{singalItem.content}}</p>
       <div class="scenbody-from">
-        <span class="author">戴维・洛奇</span>
-        <span class="work">《救火英雄》</span>
+        <span class="author">{{singalItem.referAuthorName}}</span>
+        <span class="work">{{singalItem.referWorkName}}</span>
       </div>
     </div>
+
     <footer class="footer">
       <div class="functions clearfix">
         <span>
           <a>
             <img class="message" src="~assets/img/home/message.svg" />
-            <span class="number">0</span>
+            <span class="number">{{singalItem.cntComment}}</span>
           </a>
         </span>
         <span>
           <a>
             <img class="love" src="~assets/img/home/love.svg" />
-            <span class="number">0</span>
+            <span class="number">{{singalItem.cntLike}}</span>
           </a>
         </span>
         <span class="right">
@@ -35,6 +40,7 @@
           </a>
         </span>
       </div>
+      <!-- 底部插槽 -->
       <slot name="footer"></slot>
     </footer>
   </article>
@@ -45,6 +51,9 @@ export default {
   name: "Sentence",
   data() {
     return {};
+  },
+  props: {
+    singalItem: Object
   },
   methods: {}
 };
@@ -118,5 +127,4 @@ header img {
   display: inline-block;
   width: 25px;
 }
-
 </style>

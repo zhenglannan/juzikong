@@ -19,7 +19,7 @@ export default {
 
 <style>
 @import "assets/css/base.css";
-.navbar {
+/* .navbar {
   
-}
+} */
 </style>
