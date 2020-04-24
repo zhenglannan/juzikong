@@ -3,10 +3,8 @@
     <!-- 头部插槽 -->
     <slot name="header" v-if="singalItem.creator">
       <header>
-        <a>
+        <a @click="toOtherProfile">
           <img :src="singalItem.creator.avator" alt />
-        </a>
-        <a>
           <span>{{singalItem.creator.username}}</span>
         </a>
       </header>
@@ -55,7 +53,17 @@ export default {
   props: {
     singalItem: Object
   },
-  methods: {}
+  methods: {
+    toOtherProfile() {
+      // console.log(this.singalItem.creator._id);
+
+      // this.$router.push({
+      //   path: "/profile",
+      //   query: this.singalItem.creator._id
+      // });
+       this.$router.push('/profile/'+this.singalItem.creator._id)
+    } 
+  }
 };
 </script>
 

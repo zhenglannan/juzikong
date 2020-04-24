@@ -4,7 +4,6 @@
       <div class="tabItem">专辑(1)</div>
       <div class="tabItem">句子(0)</div>
       <div class="tabItem">喜欢(11)</div>
-      <div class="tabItem">关注的专辑</div>
     </div>
   </div>
 </template>
@@ -14,6 +13,9 @@ export default {
   name: "ProfileTab",
   data() {
     return {};
+  },
+  props:{
+    
   },
   methods: {}
 };

@@ -4,30 +4,30 @@
       <div class=" el-col-6 el-col-xs-8 left_2xGJU">
         <div>
           <img
-            src="https://static.juzicon.com/avatars/avatar-200101171859-EGCY.jpeg"
+            :src="userInfo.avatar"
             class="avatar_1BQsh"
           />
         </div>
       </div>
       <div class=" el-col-18 el-col-xs-16 clearfix">
         <div class="el-row right_1P24C">
-          <div class="nickname_2HR9f">好好睡觉</div>
+          <div class="nickname_2HR9f">{{userInfo.user_name}}</div>
           <a class="edit-profile_1BOKl">
             <span>编辑个人信息</span>
           </a>
         </div>
         <div class="el-col el-col-24">
           <div class="state_1an_I">
-            <span class="num_1GWDg">0</span>
+            <span class="num_1GWDg">{{userInfo.cntFollower}}</span>
             关注者
           </div>
           <div class="state_1an_I">
             正在关注
-            <span class="num_1GWDg">0</span>
+            <span class="num_1GWDg">{{userInfo.cntFollowing}}</span>
           </div>
           <div class="state_1an_I">
             收获喜欢
-            <span class="num_1GWDg">0</span>
+            <span class="num_1GWDg">{{userInfo.cntGetLike}}</span>
           </div>
         </div>
       </div>
@@ -40,6 +40,9 @@ export default {
   name: "UserInfo",
   data() {
     return {};
+  },
+  props:{
+    userInfo:Object
   },
   methods: {}
 };

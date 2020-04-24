@@ -56,7 +56,7 @@ export default {
     getNew() {
       this.sentencesList = [];
       this.getHomeSentence("new");
-      this.currentType = "new";
+      this.currentType = "new"; 
     }
   },
   created() {
