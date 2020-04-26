@@ -2,7 +2,7 @@
   <div class="container">
     <main>
       <UserInfo :userInfo="userInfo"></UserInfo>
-      <ProfileTab></ProfileTab>
+      <ProfileTab :userInfo="userInfo"></ProfileTab>
     </main>
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script>
 import UserInfo from "./children/UserInfo";
 import ProfileTab from "./children/ProfileTab";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "Profile",
@@ -23,19 +23,20 @@ export default {
     UserInfo,
     ProfileTab
   },
-  methods: {},
-  computed: {
-    ...mapState(["login", "adminInfo", "otherUserInfo", "isAdmin"]),
-    ...mapActions(["getOtherUserInfo"]),
-    ...mapMustations(["setIsAdmin"]),
+  methods: {
+    ...mapActions(["getOtherUser"]),
+    ...mapMutations(["setIsAdmin"]),
     // 判断是否是管理员
     isAdmin() {
-      if (this.$route.params.id === adminInfo._id) {
+      // console.log('得到的管理员'+'  '+this.adminInfo);
+      console.log('profile'+'  '+this.$route.params.id);
+      
+      if (this.$route.params.id === this.adminInfo._id) {
         this.userInfo = this.adminInfo;
         this.setIsAdmin("true");
         console.log("是管理员");
-      } else {
-        getOtherUserInfo(this.$route.params.id);
+      } else {    
+        this.getOtherUser(this.$route.params.id);
         if (this.otherUserInfo !== null) {
           this.userInfo = this.otherUserInfo;
           this.setIsAdmin("false");
@@ -46,17 +47,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState(["login", "adminInfo", "otherUserInfo"]),
+  },
   created() {
-    console.log('profile');
-    
     this.isAdmin();
-    //  console.log(this.$route);
-    // if (this.login) {
-    // this.userInfo = this.adminInfo;
-    //   console.log(nthis.userInfo);
-    // }else{
-    //   console.log(this.$route.query);
-    // }
   }
 };
 </script>

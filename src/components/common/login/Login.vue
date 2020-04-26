@@ -52,7 +52,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getAdminInfo"]),
+    ...mapActions(["getAdmin"]),
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -62,7 +62,7 @@ export default {
             if (res.data.status === 0) {
               alert(res.data.message);
             } else if (res.data.status === 1) {
-              this.getAdminInfo();
+              this.getAdmin();
               alert(res.data.success);
 
               this.$router.replace("/");

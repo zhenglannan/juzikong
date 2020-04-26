@@ -1,9 +1,9 @@
 <template>
   <div class="profiletab">
     <div class="tabList">
-      <div class="tabItem">专辑(1)</div>
-      <div class="tabItem">句子(0)</div>
-      <div class="tabItem">喜欢(11)</div>
+      <div class="tabItem" @click='showCollections'>专辑({{userInfo.ctnCollection||0}})</div>
+      <div class="tabItem" @click='showPosts'>句子({{userInfo.ctnPost||0}})</div>
+      <div class="tabItem" @click='showLikes'>喜欢({{userInfo.ctnLike||0}})</div>
     </div>
   </div>
 </template>
@@ -15,9 +15,13 @@ export default {
     return {};
   },
   props:{
-    
+    userInfo:Object
   },
-  methods: {}
+  methods: {
+    showCollections(){
+      
+    }
+  }
 };
 </script>
 
@@ -46,6 +50,7 @@ export default {
   font-weight: 500;
   color: #303133;
   position: relative;
+  cursor: pointer;
 }
 .tabItem:nth-child(1) {
   padding-left: 0;

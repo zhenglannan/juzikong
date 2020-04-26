@@ -46,9 +46,9 @@ const routes = [
     // 个人中心
     path: '/profile/:id',
     component: Profile,
-    // meta: {
-    //   title: '个人中心'
-    // },
+    meta: {
+      title: '个人中心'
+    },
     // 3个tab子路由
     children: [{
       path: '/profileCollections',
@@ -101,11 +101,11 @@ const router = new VueRouter({
 
 // 每个导航对应窗口的名字
 // 前置钩子（hook回调）（在跳转之前就改）
-// router.beforeEach((to, from, next) => {
-//   // 从from跳转到to
-//   document.title = to.matched[0].meta.title;
-//   // console.log(to);
-//   next();
-// })
+router.beforeEach((to, from, next) => {
+  // 从from跳转到to
+  document.title = to.matched[0].meta.title;
+  // console.log(to);
+  next();
+})
 
 export default router

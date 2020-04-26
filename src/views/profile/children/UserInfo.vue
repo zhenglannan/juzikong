@@ -18,16 +18,16 @@
         </div>
         <div class="el-col el-col-24">
           <div class="state_1an_I">
-            <span class="num_1GWDg">{{userInfo.cntFollower}}</span>
+            <span class="num_1GWDg">{{userInfo.cntFollower||0}}</span>
             关注者
           </div>
           <div class="state_1an_I">
             正在关注
-            <span class="num_1GWDg">{{userInfo.cntFollowing}}</span>
+            <span class="num_1GWDg">{{userInfo.cntFollowing||0}}</span>
           </div>
           <div class="state_1an_I">
             收获喜欢
-            <span class="num_1GWDg">{{userInfo.cntGetLike}}</span>
+            <span class="num_1GWDg">{{userInfo.cntGetLike||0}}</span>
           </div>
         </div>
       </div>

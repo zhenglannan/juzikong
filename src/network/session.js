@@ -1,20 +1,32 @@
 import axios from 'axios'
-
-export function postRegister(formdata){
-  return axios.post('/admin/register',formdata)
+// 注册
+export function postRegister(formdata) {
+  return axios.post('/admin/register', formdata)
 }
-export function postLogin(formdata){
-  return axios.post('/admin/login',formdata)
-}
-
-export function signout(){
-  return axios.post('/admin/signout')
+// 登陆
+export function postLogin(formdata) {
+  return axios.post('/admin/login', formdata)
 }
 
-export function getAdminInfo(){
-  return axios.get('/admin/getAdminInfo')
+// 登出
+export function signout() {
+  return axios('/admin/signout')
+}
+// 得到管理员信息
+export function getAdminInfo() {
+  return axios('/admin/getAdminInfo')
+} 
+//得到其他用户信息
+export function getOtherUserInfo(user_id) {
+  return axios('/admin/getOtherUserInfo', {
+    params: {
+      user_id: user_id
+    }
+  })
+}
+//得到其他用户信息
+export function addCollection(formdata) {
+  return axios.post('/admin/addCollection',formdata)
 }
 
-export function getOtherUserInfo(user_id){
-  return axios.get('/admin/getOtherUserInfo',user_id)
-}
+
