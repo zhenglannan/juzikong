@@ -1,9 +1,10 @@
 <template>
   <div class="container">
     <main>
-      <UserInfo :userInfo="userInfo"></UserInfo>
-      <ProfileTab :userInfo="userInfo"></ProfileTab>
+      <UserInfo ></UserInfo>
+      <ProfileTab></ProfileTab>
     </main>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -16,7 +17,7 @@ export default {
   name: "Profile",
   data() {
     return {
-      userInfo: ""
+      // userInfo: ""
     };
   },
   components: {
@@ -24,22 +25,24 @@ export default {
     ProfileTab
   },
   methods: {
-    ...mapActions(["getOtherUser"]),
-    ...mapMutations(["setIsAdmin"]),
+    ...mapActions(["getUserInfo"]),
+    ...mapMutations(["setIsAdmin","setUserInfo"]),
     // 判断是否是管理员
     isAdmin() {
       // console.log('得到的管理员'+'  '+this.adminInfo);
       console.log('profile'+'  '+this.$route.params.id);
       
       if (this.$route.params.id === this.adminInfo._id) {
-        this.userInfo = this.adminInfo;
-        this.setIsAdmin("true");
+        this.setUserInfo(this.adminInfo)
+        // this.userInfo = this.adminInfo;
+        this.setIsAdmin(true);
         console.log("是管理员");
       } else {    
-        this.getOtherUser(this.$route.params.id);
-        if (this.otherUserInfo !== null) {
-          this.userInfo = this.otherUserInfo;
-          this.setIsAdmin("false");
+        this.getUserInfo(this.$route.params.id);
+        if (this.userInfo !== null) {
+          // this.setUserInfo(this.adminInfo)
+          // this.userInfo = this.otherUserInfo;
+          this.setIsAdmin(false);
           console.log("不是管理员");
         } else {
           console.log("用户数据为空！");
@@ -48,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["login", "adminInfo", "otherUserInfo"]),
+    ...mapState(["login", "adminInfo", "userInfo"]),
   },
   created() {
     this.isAdmin();

@@ -6,10 +6,11 @@ const Discovery = () => import("views/discovery/Discovery")
 const Channels = () => import("views/channels/Channels")
 const Profile = () => import("views/profile/Profile")
 const ProfileCollections = () => import("views/profile/children/ProfileCollections")
-const ProfileSentences = () => import("views/profile/children/ProfileSentences")
+const ProfilePosts = () => import("views/profile/children/ProfilePosts")
 const ProfileLikes = () => import("views/profile/children/ProfileLikes")
-
+const SetInfo = () => import("views/profile/children/SetInfo")
 const CategoriesWork = () => import("views/channels/children/children/CategoriesWork")
+
 const Login = () => import("common/login/Login")
 const Register = () => import("common/login/Register")
 
@@ -50,25 +51,38 @@ const routes = [
       title: '个人中心'
     },
     // 3个tab子路由
-    children: [{
-      path: '/profileCollections',
-      component: ProfileCollections,
-      meta: {
-        title: '个人专辑'
-      },
-    }, {
-      path: '/profileSentences',
-      component: ProfileSentences,
-      meta: {
-        title: '个人句子'
-      },
-    }, {
-      path: '/profileLikes',
-      component: ProfileLikes,
-      meta: {
-        title: '个人喜欢'
-      },
-    }]
+    children: [
+      // {
+      //   path: '',
+      //   redirect: '/profile/:id/profileCollections'
+      // },
+      {
+        path: '/profileCollections',
+        component: ProfileCollections,
+        meta: {
+          title: '个人专辑'
+        },
+      }, {
+        path: '/profilePosts',
+        component: ProfilePosts,
+        meta: {
+          title: '个人句子'
+        },
+      }, {
+        path: '/profileLikes',
+        component: ProfileLikes,
+        meta: {
+          title: '个人喜欢'
+        },
+      }
+    ]
+  }, {
+    // 专辑分类页面
+    path: '/setInfo',
+    component: SetInfo,
+    meta: {
+      title: '账号设置'
+    },
   }, {
     // 专辑分类页面
     path: '/categories/work/:workId',

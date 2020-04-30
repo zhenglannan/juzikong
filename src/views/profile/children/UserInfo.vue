@@ -12,7 +12,7 @@
       <div class=" el-col-18 el-col-xs-16 clearfix">
         <div class="el-row right_1P24C">
           <div class="nickname_2HR9f">{{userInfo.user_name}}</div>
-          <a class="edit-profile_1BOKl">
+          <a class="edit-profile_1BOKl" @click="$router.push('/setInfo')">
             <span>编辑个人信息</span>
           </a>
         </div>
@@ -36,15 +36,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "UserInfo",
   data() {
     return {};
   },
-  props:{
-    userInfo:Object
+  // props:{
+  //   userInfo:Object
+  // },
+  methods: {},
+  computed: {
+    ...mapState(["userInfo"]),
   },
-  methods: {}
 };
 </script>
 

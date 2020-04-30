@@ -1,5 +1,4 @@
 <template>
-  <div id="register">
     <el-form
       :model="ruleForm"
       :rules="rules"
@@ -8,13 +7,8 @@
       class="demo-ruleForm"
       status-icon
     >
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="ruleForm.email"></el-input>
-      </el-form-item>
-      <el-form-item label="用户名" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password" required>
+     
+      <el-form-item label="新密码" prop="password" required>
         <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass" required>
@@ -22,19 +16,18 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
-  </div>
 </template>
 
 <script>
-import { postRegister, postLogin } from "network/session";
+import { updatePwd } from "network/session";
 import { mapActions } from "vuex";
 
 export default {
-  name: "Register",
+  name: "changePwd",
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -57,21 +50,10 @@ export default {
     };
     return {
       ruleForm: {
-        email: "",
-        name: "",
         password: "",
         checkPass: ""
       },
       rules: {
-        email: [
-          { required: true, message: "请输入邮箱", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
-        ],
-        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         password: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }]
       }
@@ -82,16 +64,12 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          postRegister(this.ruleForm).then(res => {
+          updatePwd(this.ruleForm).then(res => {
             console.log(res);
             if (res.data.status === 0) {
               alert(res.data.message);
             } else {
               alert(res.data.message);
-              postLogin(this.ruleForm).then(res => {
-                 this.getAdmin();
-                this.$router.replace("/");
-              });
             }
           });
         } else {
@@ -108,16 +86,16 @@ export default {
 </script>
 
 <style scoped>
-#register {
+/* #register {
   width: 30%;
   margin: 0 auto;
   margin-top: 140px;
   border-radius: 2px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   height: 342px;
-}
+} */
 .demo-ruleForm {
-  width: 80%;
+  width: 40%;
   margin: 0 auto;
   padding-top: 34px;
   padding-right: 23px;

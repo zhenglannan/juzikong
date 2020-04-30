@@ -9,7 +9,7 @@
               :key="index"
               class="tab"
               :class="{active:currentIndex===index}"
-              @click="movieClick(index)"
+              @click="select(index)"
             >
               <a>{{item}}</a>
             </div>
@@ -29,23 +29,13 @@ export default {
     };
   },
   props: {
-    tabs: {
-      type: Array,
-      default() {
-        return [
-          "电影台词",
-          "小说摘抄",
-          "散文美句",
-          "动漫台词",
-          "连续剧台词",
-          "书籍名句"
-        ];
-      }
-    }
+    tabs: Array
   },
   methods: {
-    movieClick(index) {
+    select(index) {
       this.currentIndex = index;
+      this.$emit('workSelect',index)
+      
     }
   }
 };

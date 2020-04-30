@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import {
   getAdminInfo,
-  getOtherUserInfo
+  getUserInfo
 } from "network/session";
 
 Vue.use(Vuex) 
@@ -14,9 +14,10 @@ export default new Vuex.Store({
     login: JSON.parse(window.localStorage.getItem('login')), //是否登陆状态
     adminInfo: JSON.parse(window.localStorage.getItem('adminInfo')), //管理员信息
     // otherUserId: ''//点击的其他用户id
-    otherUserInfo:null, //点击的其他用户信息,
+    userInfo:null, //点击的用户信息(包括管理员),
     isAdmin: JSON.parse(window.localStorage.getItem('isAdmin')), //设置变量判断是否是管理员（控制有些操作不显示）
-    dialogFormVisible:false
+    dialogFormVisible:false,
+
   },
   mutations: {
     //登陆设置管理员信息
@@ -35,16 +36,17 @@ export default new Vuex.Store({
       state.adminInfo=null;
     },
     // 设置其他用户信息
-    setOtherUserInfo(state, payload) {
+    setUserInfo(state, payload) {
       // window.localStorage.setItem('otherUserInfo', payload)
-      state.otherUserInfo=payload
+      state.userInfo=payload
     },
     // 设置是否是管理员
     setIsAdmin(state, payload) {
+      // console.log(typeof(payload))
       window.localStorage.setItem('isAdmin', JSON.stringify(payload))
       state.isAdmin=payload
     },
-
+    // 设置对话框是否可见
     setDialogFormVisible(state,payload){
       state.dialogFormVisible=payload
     }
@@ -58,12 +60,10 @@ export default new Vuex.Store({
       })
     },
     // 得到其他用户信息
-    getOtherUser({
-      commit
-    }, id) {
-      getOtherUserInfo(id).then(res => {
-        console.log('getOtherUserInfo'+'    '+ res.data.data);
-        commit('setOtherUserInfo', res.data.data)
+    getUserInfo({commit}, id) {
+      getUserInfo(id).then(res => {
+        console.log('getUserInfo'+'    '+ res.data.data);
+        commit('setUserInfo', res.data.data)
       })
     }
   },

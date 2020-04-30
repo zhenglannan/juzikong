@@ -27,7 +27,7 @@ export default {
   name: "NavBar",
   data() {
     return {
-      dialogFormVisible: false
+      // dialogFormVisible: false
     };
   },
   components: {
@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["login", "adminInfo"])
+    ...mapState(["login", "adminInfo",'dialogFormVisible'])
   },
   created() {
     // this.checkLogin();

@@ -1,14 +1,7 @@
 <template>
   <article class="scentence">
     <!-- 头部插槽 -->
-    <slot name="header" v-if="singalItem.creator">
-      <header>
-        <a @click="toOtherProfile">
-          <img :src="singalItem.creator.avator" alt />
-          <span>{{singalItem.creator.username}}</span>
-        </a>
-      </header>
-    </slot>
+    <slot name="header"></slot>
 
     <div class="scenbody">
       <p class="scenbody-post">{{singalItem.content}}</p>
@@ -54,15 +47,14 @@ export default {
     singalItem: Object
   },
   methods: {
-    toOtherProfile() {
-      // console.log(this.singalItem.creator._id);
-
-      // this.$router.push({
-      //   path: "/profile",
-      //   query: this.singalItem.creator._id
-      // });
-       this.$router.push('/profile/'+this.singalItem.creator._id)
-    } 
+    // toOtherProfile() {
+    //   // console.log(this.singalItem.creator._id);
+    //   // this.$router.push({
+    //   //   path: "/profile",
+    //   //   query: this.singalItem.creator._id
+    //   // });
+    //    this.$router.push('/profile/'+this.singalItem.creator._id)
+    // }
   }
 };
 </script>
@@ -75,7 +67,7 @@ export default {
   border-radius: 2px;
   margin-bottom: 20px;
 }
-header {
+/* header {
   display: flex;
   align-items: center;
   padding: 10px 16px;
@@ -87,7 +79,7 @@ header img {
   height: 30px;
   margin-right: 5px;
   border-radius: 50%;
-}
+} */
 .scenbody {
   padding: 100px 80px;
 }

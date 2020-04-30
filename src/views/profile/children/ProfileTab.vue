@@ -1,32 +1,69 @@
 <template>
-  <div class="profiletab">
+  <!-- <div class="profiletab">
     <div class="tabList">
-      <div class="tabItem" @click='showCollections'>专辑({{userInfo.ctnCollection||0}})</div>
-      <div class="tabItem" @click='showPosts'>句子({{userInfo.ctnPost||0}})</div>
-      <div class="tabItem" @click='showLikes'>喜欢({{userInfo.ctnLike||0}})</div>
+      <div class="tabItem" @click='showCollections'>专辑({{userInfo.collections.length||0}})</div>
+      <div class="tabItem" @click='showPosts'>句子({{userInfo.posts.length||0}})</div>
+      <div class="tabItem" @click='showLikes'>喜欢({{userInfo.likes.length||0}})</div>
     </div>
-  </div>
+    
+  </div>-->
+  <el-tabs v-model="activeName" id="tabs">
+    <el-tab-pane :label="'专辑('+userInfo.collections.length||0+') '" name="first">
+      <ProfileCollections></ProfileCollections>
+    </el-tab-pane>
+    <el-tab-pane :label="'句子('+userInfo.posts.length||0+')'" name="second">
+      <ProfilePosts></ProfilePosts>
+    </el-tab-pane>
+    <el-tab-pane :label="'喜欢('+userInfo.likes.length||0+')'" name="third">
+      <ProfileLikes></ProfileLikes>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
+import ProfileCollections from "./ProfileCollections";
+import ProfilePosts from "./ProfilePosts";
+import ProfileLikes from "./ProfileLikes";
+import { mapState } from "vuex";
+
 export default {
   name: "ProfileTab",
   data() {
-    return {};
+    return {
+      activeName: "second"
+    };
   },
-  props:{
-    userInfo:Object
+  components: {
+    ProfileCollections,
+    ProfilePosts,
+    ProfileLikes
   },
   methods: {
-    showCollections(){
-      
-    }
+    // handleClick(tab, event) {
+    //   console.log(tab, event);
+    // }
+    // showCollections(){
+    //   this.$router.push('/profileCollections')
+    // },
+    // showPosts(){
+    //   this.$router.push('/profilePosts')
+    // },
+    // showLikes(){
+    //   this.$router.push('/profileLikes')
+    // }
+  },
+  computed: {
+    ...mapState(["userInfo"])
   }
 };
 </script>
 
 <style scoped>
-.profiletab {
+#tabs {
+  background-color: #fff;
+  padding: 5px 20px;
+}
+/* .profiletab {
   padding: 5px 20px;
   overflow-x: auto;
   background: #ffffff;
@@ -54,5 +91,5 @@ export default {
 }
 .tabItem:nth-child(1) {
   padding-left: 0;
-}
+} */
 </style>

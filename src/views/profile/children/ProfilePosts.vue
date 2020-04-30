@@ -1,7 +1,7 @@
 <template>
   <el-container class="el-container">
     <el-col :span="24">
-      <ProfileSentence v-for="(item) in userInfo.likes" :key="item._id" :singalItem="item"></ProfileSentence>
+    <ProfileSentence v-for="(item) in userInfo.posts" :key="item._id" :singalItem=item></ProfileSentence>
     </el-col>
   </el-container>
 </template>
@@ -10,7 +10,7 @@
 import { mapState } from "vuex";
 import ProfileSentence from "content/profile/ProfileSentence";
 export default {
-  name: "ProfileLikes",
+  name: "ProfilePosts",
   data() {
     return {};
   },
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-.el-container {
-  padding: 0 20px;
-}
+.el-container{
+    padding: 0 20px;
+    }
 </style>
