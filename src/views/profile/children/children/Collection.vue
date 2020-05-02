@@ -2,10 +2,10 @@
   <div class="wrapper">
     <div class="collection">
       <div class="img">
-        <img :src="item.cover" />
+        <img :src="item.cover"  @click="toCollection"/>
       </div>
       <div class="info">
-        <div class="name">{{item.name}}</div>
+        <div class="name" @click="toCollection">{{item.name}}</div>
       </div>
     </div>
   </div>
@@ -15,12 +15,18 @@
 export default {
   name: "Collection",
   data() {
-    return {};
+    return {
+      id:this.item._id
+    };
   },
   props: {
     item: Object
   },
-  methods: {}
+  methods: {
+    toCollection(){
+      this.$router.push('/collectionDetail/'+this.id)
+    }
+  }
 };
 </script>
 
@@ -40,6 +46,7 @@ export default {
   position: relative;
   width: 240px;
   height: 240px;
+  cursor: pointer;
 }
 .info {
   padding: 12px 10px;
@@ -50,8 +57,9 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 5px;
+  margin-top: 8px;
   font-weight: 700;
   font-size: 14px;
+  cursor: pointer;
 }
 </style>

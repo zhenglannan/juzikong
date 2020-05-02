@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .homecategory{
-      width: 50%;
+      /* width: 50%; */
 }
 .homeul {
   background-color: #fff;

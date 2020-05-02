@@ -28,9 +28,49 @@ export function getUserInfo(user_id) {
 export function addCollection(formdata) {
   return axios.post('/admin/addCollection', formdata)
 }
+//查找专辑
+export function findCollection(id) {
+  return axios('/admin/findCollection', {
+    params: {
+      _id: id
+    }
+  })
+}
+//修改专辑
+export function updateCollection(collectionId,formdata) {
+  return axios.post('/admin/updateCollection/'+collectionId,formdata)
+}
+//删除专辑
+export function deleteCollection(id) {
+  return axios('/admin/deleteCollection', {
+    params: {
+      _id: id
+    }
+  })
+}
+//发布句子到专辑??
+export function postToCollection(collectionId, formdata) {
+  return axios.post('/admin/postToCollection/'+collectionId, formdata)
+}
 //发布句子
 export function addPost(formdata) {
   return axios.post('/admin/addPost', formdata)
+}
+//查找句子
+export function findSentence(id) {
+  return axios('/sentence/findSentence', {
+    params:{
+      _id:id
+    }
+  })
+}
+//删除句子
+export function deletePosts(id) {
+  return axios('/admin/deletePosts', {
+    params: {
+      _id: id
+    }
+  })
 }
 //点赞句子
 export function setLike(id) {
@@ -40,6 +80,7 @@ export function setLike(id) {
     }
   })
 }
+
 //取消点赞
 export function removeLike(id) {
   return axios('/admin/removeLike', {
@@ -48,12 +89,20 @@ export function removeLike(id) {
     }
   })
 }
+//评论句子
+export function comment(id,comment) {
+  return axios('/admin/comment/'+id,{
+    params:{
+      comment:comment
+    }
+  })
+}
 //编辑个人信息
 export function updateInfo(formdata) {
   return axios.post('/admin/updateInfo', formdata)
 }
 
-//编辑个人信息
+//更改密码
 export function updatePwd(formdata) {
   return axios.post('/admin/updatePwd', formdata)
 }

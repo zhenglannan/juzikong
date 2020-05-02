@@ -12,6 +12,17 @@
 }
 
 + 发布新句子dialog中设置dialogFormVisible为vuex的state,就不能点击遮罩层或者右上方进行关闭
+
++  前置钩子偶尔不能显示meta
+``` // 前置钩子（hook回调）（在跳转之前就改）
+ router.beforeEach((to, from, next) => {
+   // 从from跳转到to   
+   document.title = to.matched[0].meta.title;
+  // console.log(to);
+   next();
+ }) 
+```
+
 ## Project setup
 ```
 npm install

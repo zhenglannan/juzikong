@@ -59,7 +59,7 @@ export default new Vuex.Store({
         commit('setAdminInfo', res.data.data)
       })
     },
-    // 得到其他用户信息
+    // 得到用户信息
     getUserInfo({commit}, id) {
       getUserInfo(id).then(res => {
         console.log('getUserInfo'+'    '+ res.data.data);

@@ -1,7 +1,7 @@
 <template>
   <el-container class="el-container">
     <el-col :span="24">
-    <ProfileSentence v-for="(item) in userInfo.posts" :key="item._id" :singalItem=item></ProfileSentence>
+    <ProfileSentence v-for="(item) in userInfo.posts" :key="item._id" :item=item></ProfileSentence>
     </el-col>
   </el-container>
 </template>

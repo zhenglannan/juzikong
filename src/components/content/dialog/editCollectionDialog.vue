@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="创建新专辑" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
+  <el-dialog title="编辑专辑" :visible.sync="editdialogVisible"  :close-on-press-escape='false'>
     <el-form :model="form" :rules="rules" ref="Form">
       <el-form-item label="专辑封面" :label-width="formLabelWidth" prop="file" ref="file">
         <el-upload
@@ -20,7 +20,12 @@
         <el-input v-model="form.name" autocomplete="off" placeholder="为你的专辑取个名"></el-input>
       </el-form-item>
       <el-form-item label="专辑描述" :label-width="formLabelWidth">
-        <el-input type="textarea" v-model="form.intro" autocomplete="off" placeholder="介绍（可选）"></el-input>
+        <el-input
+          type="textarea"
+          v-model="form.intro"
+          autocomplete="off"
+          placeholder="为你的专辑加上简单的介绍（可选）"
+        ></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -28,34 +33,36 @@
       <!-- <el-button type="primary" @click="setDialogFormVisible(false)">确 定</el-button> -->
       <el-button type="primary" @click="onSubmit('Form')">确 定</el-button>
     </div>
-  </el-dialog>
+  </el-dialog> 
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import { addCollection } from "network/session";
+import { updateCollection } from "network/session";
 
 export default {
-  name: "CollectionDialog",
+  name: "editCollectionDialog",
   data() {
     return {
       form: {
-        name: "",
-        intro: ""
+        name: this.collection.name,
+        intro: this.collection.intro
       },
       files: null,
       rules: {
         name: [{ required: true, message: "必填项", trigger: "blur" }]
-        // ？？
-        // file: [{ required: true, message: "请上传图片" }]
       },
       imageUrl: "",
-      formLabelWidth: "120px"
-      // dialogFormVisible:false
+      formLabelWidth: "120px",
+      // editVisible:false
     };
   },
+  props: {
+    collection: Object,
+    editdialogVisible:Boolean
+  },
   methods: {
-    ...mapMutations(["setDialogFormVisible"]),
+    // ...mapMutations(["setDialogFormVisible"]),
     ...mapActions(["getAdmin"]),
     // before-upload钩子函数
     beforeupload(file) {
@@ -84,17 +91,16 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.setDialogFormVisible(false);
+                   this.$emit('childClose');
           // formData保存表单带有文件数据
           let formData = new FormData();
           formData.append("name", this.form.name);
           formData.append("intro", this.form.intro);
-          // if (this.files) {
-            formData.append("file", this.files);
-          // }
-          addCollection(formData).then(res => {
+          formData.append("file", this.files);
+          updateCollection(this.collection._id,formData).then(res => {
             console.log(res);
             if (res.data.status === 1) {
+              alert(res.data.message);
               this.getAdmin();
             }
           });
@@ -107,12 +113,9 @@ export default {
     // 取消===重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.setDialogFormVisible(false);
+     this.$emit('childClose');
     }
   },
-  computed: {
-    ...mapState(["dialogFormVisible"])
-  }
 };
 </script>
 

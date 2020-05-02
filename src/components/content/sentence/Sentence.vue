@@ -4,25 +4,25 @@
     <slot name="header"></slot>
 
     <div class="scenbody">
-      <p class="scenbody-post">{{singalItem.content}}</p>
+      <p class="scenbody-post" @click="$router.push('/sentenceDetail/'+item._id)">{{item.content}}</p>
       <div class="scenbody-from">
-        <span class="author">{{singalItem.referAuthorName}}</span>
-        <span class="work">{{singalItem.referWorkName}}</span>
-      </div>
+        <span class="author">{{item.referAuthorName}}</span>
+        <span class="work">{{item.referWorkName}}</span>
+      </div>  
     </div>
 
     <footer class="footer">
       <div class="functions clearfix">
         <span>
           <a>
-            <img class="message" src="~assets/img/home/message.svg" />
-            <span class="number">{{singalItem.cntComment}}</span>
+            <img class="message" src="~assets/img/home/message.svg" @click="$router.push('/sentenceDetail/'+item._id)"/>
+            <span class="number">{{item.cntComment}}</span>
           </a>
         </span>
         <span>
           <a>
             <img class="love" src="~assets/img/home/love.svg" />
-            <span class="number">{{singalItem.cntLike}}</span>
+            <span class="number">{{item.cntLike}}</span>
           </a>
         </span>
         <span class="right">
@@ -38,10 +38,13 @@
 </template>
 
 <script>
+import {findSentence} from 'network/session';
 export default {
   name: "Sentence",
   data() {
-    return {};
+    return {
+      item:null
+    };
   },
   props: {
     singalItem: Object
@@ -55,6 +58,13 @@ export default {
     //   // });
     //    this.$router.push('/profile/'+this.singalItem.creator._id)
     // }
+
+  },
+  created(){
+    findSentence(this.singalItem._id).then(res=>{
+      console.log(res);
+      this.item=res.data.data
+    })
   }
 };
 </script>
@@ -89,6 +99,7 @@ header img {
   line-height: 1.7;
   /* 换行 */
   word-break: break-word;
+  cursor: pointer;
 }
 .scenbody-from {
   margin-top: 30px;

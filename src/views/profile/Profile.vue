@@ -38,6 +38,7 @@ export default {
         this.setIsAdmin(true);
         console.log("是管理员");
       } else {    
+        // 设置其他用户信息
         this.getUserInfo(this.$route.params.id);
         if (this.userInfo !== null) {
           // this.setUserInfo(this.adminInfo)

@@ -1,5 +1,11 @@
 <template>
   <article class="scentence">
+    <header v-if="singalItem.creator">
+      <a @click="toOtherProfile">
+        <img :src="singalItem.creator.avatar" class="avatar_30uNb" />
+        <span class="username">{{singalItem.creator.username}}</span>
+      </a>
+    </header>
     <div class="scenbody">
       <p
         class="scenbody-post"
@@ -39,7 +45,7 @@
 import { mapActions, mapState } from "vuex";
 import { setLike, removeLike, findSentence } from "network/session";
 export default {
-  name: "ProfileSentence",
+  name: "CollectionSen",
   data() {
     return {
       singalItem: null
@@ -86,6 +92,10 @@ export default {
         });
       }
       // return this.singalItem.getLike? this.singalItem.getLike=false: this.singalItem.getLike=true
+    },
+    // 点击用户
+    toOtherProfile() {
+      this.$router.push("/profile/" + this.singalItem.creator._id);
     }
   },
   created() {
@@ -102,7 +112,21 @@ export default {
   padding: 15px 0;
   border-bottom: 1px solid gainsboro;
 }
-
+.scentence>header{
+  display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.username{
+  vertical-align: super;
+}
+.avatar_30uNb{
+      width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    overflow: hidden;
+}
 .scentence:last-child {
   border: none;
 }

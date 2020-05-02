@@ -14,6 +14,8 @@ const CategoriesWork = () => import("views/channels/children/children/Categories
 const Login = () => import("common/login/Login")
 const Register = () => import("common/login/Register")
 
+const CollectionDetail = () => import("content/collectionDetail/CollectionDetail")
+const SentenceDetail = () => import("content/sentence/SentenceDetail")
 
 Vue.use(VueRouter)
 
@@ -77,7 +79,7 @@ const routes = [
       }
     ]
   }, {
-    // 专辑分类页面
+    //账号设置
     path: '/setInfo',
     component: SetInfo,
     meta: {
@@ -104,6 +106,16 @@ const routes = [
     meta: {
       title: '注册'
     },
+  },
+  {
+    // 点开专辑
+    path: '/collectionDetail/:id',
+    component: CollectionDetail,
+  },
+  {
+    // 点开juzi
+    path: '/sentenceDetail/:id',
+    component: SentenceDetail,
   }
 ]
 
@@ -115,11 +127,11 @@ const router = new VueRouter({
 
 // 每个导航对应窗口的名字
 // 前置钩子（hook回调）（在跳转之前就改）
-router.beforeEach((to, from, next) => {
-  // 从from跳转到to
-  document.title = to.matched[0].meta.title;
-  // console.log(to);
-  next();
-})
+// router.beforeEach((to, from, next) => {
+//   // 从from跳转到to
+//   document.title = to.matched[0].meta.title;
+//   // console.log(to);
+//   next();
+// })
 
 export default router

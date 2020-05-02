@@ -8,7 +8,8 @@
         </a>
       </header>
       <section slot="footer">
-        <input type="text" placeholder="我也评论一句..." class="comment" />
+         <!-- <el-input class="commentInput" type="text" placeholder="我也评论一句..." v-model="text" @keypress.enter="giveComment"></el-input> -->
+        <input type="text" placeholder="我也评论一句..." class="comment" v-model="text"   @keydown.enter="giveComment"/>
       </section>
     </Sentence>
   </div>
@@ -16,10 +17,15 @@
 
 <script>
 import Sentence from "content/sentence/Sentence";
+import {
+  comment
+} from "network/session";
 export default {
   name: "HomeSentenceList",
   data() {
-    return {};
+    return {
+      text:''
+    };
   },
   props:{
     list:Array
@@ -28,16 +34,28 @@ export default {
     Sentence
   },
   methods: {
+    // 点击用户
     toOtherProfile() {
        this.$router.push('/profile/'+this.singalItem.creator._id)
-    } 
+    },
+    // 回车评论？？
+    giveComment(){
+      comment(item._id, this.text).then(res => {
+        console.log(res);
+        if (res.data.status === 1) {
+          alert(res.data.message);
+          // 设置文本框为空，更新评论信息
+          this.text = "";
+        }
+      });
+    }
   },
 };
 </script>
 
 <style scoped>
 .homeSentenceList {
-  width: 50%;
+  /* width: 50%; */
 }
 .comment {
   width: 100%;

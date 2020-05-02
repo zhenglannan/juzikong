@@ -1,25 +1,25 @@
 <template>
-  <el-dialog title="发布新句子" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
+  <el-dialog title="发布新句子" :visible.sync="dialogFormVisible" :close-on-click-modal='false'>
     <el-form :model="form" :rules="rules" ref="Form">
       <el-form-item prop="content">
-        <el-input type='textarea' v-model="form.content" placeholder="和世界分享你喜欢的句子"></el-input>
+        <el-input type="textarea" v-model="form.content" placeholder="和世界分享你喜欢的句子"></el-input>
       </el-form-item>
-      <el-row >
+      <el-row>
         <el-col :span="3">
           <el-checkbox v-model="checked">原创</el-checkbox>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="作者" :label-width="formLabelWidth" >
-            <el-input v-model="form.referAuthorName" placeholder="请输入作者" :disabled='checked'></el-input>
+          <el-form-item label="作者" :label-width="formLabelWidth">
+            <el-input v-model="form.referAuthorName" placeholder="请输入作者" :disabled="checked"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10" :push="1">
-          <el-form-item label="出处" :label-width="formLabelWidth" >
-            <el-input  v-model="form.referWorkName" placeholder="请输入出处" :disabled='checked'></el-input>
+          <el-form-item label="出处" :label-width="formLabelWidth">
+            <el-input v-model="form.referWorkName" placeholder="请输入出处" :disabled="checked"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-       <el-form-item  label='标签(多个标签用逗号分割)'> 
+      <el-form-item label="标签(多个标签用逗号分割)">
         <el-input v-model="form.tags" placeholder="请输入标签"></el-input>
       </el-form-item>
     </el-form>
@@ -32,45 +32,46 @@
 </template>
 
 <script>
-import { mapState, mapMutations,mapActions } from "vuex";
-import { addPost } from "network/session";
+import { mapState, mapMutations, mapActions } from "vuex";
+import { postToCollection } from "network/session";
 
 export default {
-  name: "PostDialog",
+  name: "PostToColDialog",
   data() {
     return {
       form: {
         content: "",
-        referAuthorName:'',
-        referWorkName:'',
-        tags:''
+        referAuthorName: "",
+        referWorkName: "",
+        tags: ""
       },
-      formLabelWidth: '50px',
+      formLabelWidth: "50px",
       checked: false,
       rules: {
-        content: [
-          {required: true, message: "必填项", trigger: "blur" }
-        ]
+        content: [{ required: true, message: "必填项", trigger: "blur" }]
       },
-      // dialogFormVisible:false
+      // postFormVisible: this.dialogFormVisible
     };
   },
+  props: {
+    collection: Object,
+    dialogFormVisible: Boolean
+  },
   methods: {
-    ...mapMutations(["setDialogFormVisible"]),
-    ...mapActions(['getAdmin']),
+    // ...mapMutations(["setDialogFormVisible"]),
+    ...mapActions(["getAdmin"]),
     // 提交表格并验证
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.setDialogFormVisible(false);
+         this.$emit('childClose');//子组件向外部传播一个childClose事件
           // formData保存表单带有文件数据
-          addPost(this.form).then(res => {
+          postToCollection(this.collection._id,this.form).then(res => {
             console.log(res);
             // 刷新管理员信息
-              if(res.data.status===1){
-                this.getAdmin();
-                this.$router.push('/sentenceDetail/'+res.data.data._id)
-              }
+            if (res.data.status === 1) {
+              this.getAdmin();
+            }
           });
         } else {
           console.log("error submit!!");
@@ -81,11 +82,11 @@ export default {
     // 取消===重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.setDialogFormVisible(false);
+     this.$emit('childClose');//子组件向外部传播一个childClose事件
     }
   },
   computed: {
-    ...mapState(["dialogFormVisible"]),
+    // ...mapState(["dialogFormVisible"]),
   }
 };
 </script>

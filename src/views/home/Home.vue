@@ -1,12 +1,15 @@
 <template>
   <div id="home" class="container">
-    <HomeCategory :title="['电影台词','小说摘抄','散文美句','动漫台词','连续剧台词','书籍名句']"></HomeCategory>
-    <div class="hometab">
-      <span @click="getHot">热门</span>
-      <span class="twotab" @click="getNew">最新</span>
+    <div class="list">
+      <HomeCategory :title="['电影台词','小说摘抄','散文美句','动漫台词','连续剧台词','书籍名句']"></HomeCategory>
+      <div class="hometab">
+        <span @click="getHot">热门</span>
+        <span class="twotab" @click="getNew">最新</span>
+      </div>
+      <HomeSentenceList :list="sentencesList"></HomeSentenceList>
+      <el-button :loading="loading" @click.native="load" v-if="newData.length">{{loadText}}</el-button>
     </div>
-    <HomeSentenceList :list="sentencesList"></HomeSentenceList>
-    <el-button :loading="loading" @click.native="load" v-if="newData.length">{{loadText}}</el-button>
+    <aside></aside>
   </div>
 </template>
 
@@ -56,7 +59,7 @@ export default {
     getNew() {
       this.sentencesList = [];
       this.getHomeSentence("new");
-      this.currentType = "new"; 
+      this.currentType = "new";
     }
   },
   created() {
@@ -75,6 +78,9 @@ export default {
 </script>
 
 <style scoped>
+.list {
+  flex: 1;
+}
 .hometab {
   margin-bottom: 15px;
   color: grey;
@@ -86,5 +92,10 @@ export default {
   content: "/";
   margin: 0 15px;
   font-size: 14px;
+}
+#home > aside {
+  width: 100%;
+  max-width: 370px;
+  margin-left: 30px;
 }
 </style>
