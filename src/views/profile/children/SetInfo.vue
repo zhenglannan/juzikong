@@ -21,7 +21,7 @@
               </el-form-item>
 
               <el-form-item label="昵称" :label-width="formLabelWidth" prop="name">
-                <el-input v-model="form.name" autocomplete="off" placeholder="用户卡片将展示此昵称（必填）"></el-input>
+                <el-input v-model="name" autocomplete="off" placeholder="用户卡片将展示此昵称（必填）"></el-input>
               </el-form-item>
               <el-form-item label="签名" :label-width="formLabelWidth">
                 <el-input
@@ -38,7 +38,9 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="更改密码"><changePwd></changePwd></el-tab-pane>
+          <el-tab-pane label="更改密码">
+            <changePwd></changePwd>
+          </el-tab-pane>
           <el-tab-pane label="设置标签">设置标签</el-tab-pane>
         </el-tabs>
       </div>
@@ -47,31 +49,33 @@
 </template>
 
 <script>
-import { mapState,  mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { updateInfo } from "network/session";
-import changePwd from 'content/changePwd/changePwd'
+import changePwd from "content/changePwd/changePwd";
 export default {
   name: "SetInfo",
   data() {
     return {
       tabPosition: "left",
       form: {
-        name: "",
+        // name: '',
         intro: ""
       },
+      name: "",
       files: null,
       rules: {
-        name: [{ required: true, message: "必填项", trigger: "blur" }]
+        // name: [{ required: true, message: "必填项", trigger: "blur" }]
       },
       imageUrl: "",
       formLabelWidth: "120px"
     };
   },
-  components:{
-changePwd
+  components: {
+    changePwd
   },
+
   methods: {
-        ...mapActions(['getAdmin']),
+    ...mapActions(["getAdmin"]),
 
     beforeupload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -99,7 +103,7 @@ changePwd
         if (valid) {
           // formData保存表单带有文件数据
           let formData = new FormData();
-          formData.append("name", this.form.name);
+          formData.append("name", this.name);
           formData.append("intro", this.form.intro);
           formData.append("file", this.files);
           updateInfo(formData).then(res => {
@@ -117,6 +121,9 @@ changePwd
   },
   computed: {
     ...mapState(["adminInfo"])
+  },
+  created() {
+    this.name = this.adminInfo.user_name;
   }
 };
 </script>

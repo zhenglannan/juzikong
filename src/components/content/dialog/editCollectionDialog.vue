@@ -41,7 +41,7 @@ import { mapState, mapMutations, mapActions } from "vuex";
 import { updateCollection } from "network/session";
 
 export default {
-  name: "editCollectionDialog",
+  name: "EditCollectionDialog",
   data() {
     return {
       form: {

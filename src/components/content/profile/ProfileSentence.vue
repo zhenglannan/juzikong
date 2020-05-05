@@ -1,5 +1,5 @@
 <template>
-  <article class="scentence">
+  <article class="scentence" v-if="showSentence">
     <div class="scenbody">
       <p
         class="scenbody-post"
@@ -50,12 +50,20 @@ export default {
     item: Object
   },
   computed: {
-    ...mapState(["adminInfo"]),
+    ...mapState(["adminInfo", "profileSearch"]),
     // 是否显示已点赞图标
     showLikes() {
       return this.adminInfo.likes.some(
         item => item._id === this.singalItem._id
       );
+    },
+    // 实时显示查询到的句子
+    showSentence() {
+      if (this.profileSearch === null) {
+        return true;
+      } else {
+        return this.singalItem.content.toLowerCase().indexOf(this.profileSearch.toLowerCase()) !== -1;
+      }
     }
   },
   methods: {
@@ -90,7 +98,7 @@ export default {
   },
   created() {
     findSentence(this.item._id).then(res => {
-      console.log(res.data.data);
+      // console.log(res.data.data);
       this.singalItem = res.data.data;
     });
   }

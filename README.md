@@ -11,7 +11,7 @@
   })
 }
 
-+ 发布新句子dialog中设置dialogFormVisible为vuex的state,就不能点击遮罩层或者右上方进行关闭
++ dialog作组件时不能点击遮罩层或者右上方进行关闭,会直接改变props(子组件不允许直接修改父组件传过来的prop)
 
 +  前置钩子偶尔不能显示meta
 ``` // 前置钩子（hook回调）（在跳转之前就改）

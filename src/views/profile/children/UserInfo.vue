@@ -12,10 +12,13 @@
       <div class=" el-col-18 el-col-xs-16 clearfix">
         <div class="el-row right_1P24C">
           <div class="nickname_2HR9f">{{userInfo.user_name}}</div>
-          <a class="edit-profile_1BOKl" @click="$router.push('/setInfo')">
+          <a class="edit-profile_1BOKl" @click="$router.push('/setInfo')" v-if="isAdmin">
             <span>编辑个人信息</span>
           </a>
+          <el-button type="primary" round  size="mini" v-if="!showStar" @click="star" v-show='showBtn'>加关注</el-button>
+          <el-button type="primary" round  size="mini" v-else @click="cancelStar" v-show='showBtn'>取消关注</el-button>
         </div>
+        <el-col :span="24"><div class='intro'>{{userInfo.intro}}</div></el-col>
         <div class="el-col el-col-24">
           <div class="state_1an_I">
             <span class="num_1GWDg">{{userInfo.cntFollower||0}}</span>
@@ -36,8 +39,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
+import { mapState,mapActions } from "vuex";
+import {starUser,cancelStarUser} from 'network/session'
 export default {
   name: "UserInfo",
   data() {
@@ -46,9 +49,38 @@ export default {
   // props:{
   //   userInfo:Object
   // },
-  methods: {},
+  methods: {
+    ...mapActions(['getAdmin']),
+    // 关注
+    star(){
+      starUser(this.userInfo._id,this.userInfo.avatar,this.userInfo.user_name).then(res=>{
+        if(res.data.status===1){
+          this.getAdmin();
+          this.userInfo.cntFollower++;
+          alert(res.data.message)
+        }
+      })
+    },
+    // 取消关注
+    cancelStar(){
+      cancelStarUser(this.userInfo._id,this.userInfo.avatar,this.userInfo.user_name).then(res=>{
+        if(res.data.status===1){
+          this.getAdmin();
+          this.userInfo.cntFollower--;
+          alert(res.data.message)
+        }
+      })
+    }
+  },
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo",'isAdmin','adminInfo']),
+    // 是否显示加注
+    showStar(){
+      return this.adminInfo.followings.some(item=>item._id===this.userInfo._id)
+    },
+    showBtn(){
+      return this.userInfo._id!==this.adminInfo._id
+    }
   },
 };
 </script>
@@ -109,5 +141,11 @@ export default {
 }
 .el-row::after{
    clear: both;
+}
+.intro{
+  display: inline-block;
+    padding: 0 20px 10px 0;
+    color: #888;
+    font-size: 14px;
 }
 </style>

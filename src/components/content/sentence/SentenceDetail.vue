@@ -23,7 +23,7 @@
                 <span class="number">{{sentence.cntLike}}</span>
               </span>
               <span>
-                <a>
+                <a @click="addToCollection">
                   <img class="addAlbum" src="~assets/img/home/addAlbum.svg" />
                 </a>
               </span>
@@ -42,7 +42,7 @@
               <el-input class="textarea" type="textarea" placeholder="评论" v-model="textarea"></el-input>
             </div>
             <div class="btns">
-              <el-button type="primary" class="right button" @click="giveComment">评论</el-button>
+              <el-button type="primary" class="right button" @click="giveComment" :disabled="!textarea">评论</el-button>
             </div>
           </div>
           <span class="text_comments">最新评论</span>
@@ -71,6 +71,11 @@
       </section>
     </div>
     <aside></aside>
+    <AddToCollection
+      :dialogFormVisible="dialogFormVisible"
+      :sentence="sentence"
+      @childClose="childPostClose"
+    ></AddToCollection>
   </div>
 </template>
 
@@ -83,13 +88,18 @@ import {
   setLike,
   removeLike
 } from "network/session";
+import AddToCollection from "content/dialog/AddToCollection";
 export default {
   name: "SentenceDetail",
   data() {
     return {
       sentence: null,
-      textarea: ""
+      textarea: "",
+      dialogFormVisible: false
     };
+  },
+  components:{
+AddToCollection
   },
   computed: {
     ...mapState(["adminInfo"]),
@@ -107,6 +117,7 @@ export default {
       return this.adminInfo.posts.some(item => item._id === this.sentence._id);
       // return this.adminInfo.posts.indexOf(this.sentence._id) !== -1;
     },
+    // 评论过滤为倒序
     filterSent() {
       // 评论时间降序
       let sentence = this.sentence;
@@ -121,7 +132,7 @@ export default {
       }
       sentence.comment.sort(compare);
       return sentence.comment;
-    }
+    },
   },
   methods: {
     ...mapActions(["getAdmin"]),
@@ -133,7 +144,7 @@ export default {
             "无法删除：因为这个句子有被喜欢、收藏或者评论，如需删除，请联系管理员",
           type: "warning"
         });
-        return 
+        return;
       }
 
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -205,6 +216,12 @@ export default {
           }
         });
       }
+    },
+    addToCollection() {
+      this.dialogFormVisible = true;
+    },
+    childPostClose() {
+      this.dialogFormVisible = false;
     }
   },
   created() {

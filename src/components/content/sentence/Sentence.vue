@@ -8,22 +8,27 @@
       <div class="scenbody-from">
         <span class="author">{{item.referAuthorName}}</span>
         <span class="work">{{item.referWorkName}}</span>
-      </div>  
+      </div>
     </div>
 
     <footer class="footer">
       <div class="functions clearfix">
         <span>
           <a>
-            <img class="message" src="~assets/img/home/message.svg" @click="$router.push('/sentenceDetail/'+item._id)"/>
+            <img
+              class="message"
+              src="~assets/img/home/message.svg"
+              @click="$router.push('/sentenceDetail/'+item._id)"
+            />
             <span class="number">{{item.cntComment}}</span>
           </a>
         </span>
         <span>
-          <a>
-            <img class="love" src="~assets/img/home/love.svg" />
-            <span class="number">{{item.cntLike}}</span>
+          <a @click="like">
+            <i class="el-icon-star-on" v-if="showLikes"></i>
+            <i class="el-icon-star-off" v-else></i>
           </a>
+          <span class="number">{{item.cntLike}}</span>
         </span>
         <span class="right">
           <a>
@@ -32,39 +37,103 @@
         </span>
       </div>
       <!-- 底部插槽 -->
-      <slot name="footer"></slot>
+      <!-- <input type=s"text" placeholder="我也评论一句..." class="comment" v-model="text" /> -->
+      <slot name="footer">
+        <input type="text" placeholder="我也评论一句..." class="comment" v-model="text"   @keydown.enter="giveComment(item._id)"/>
+        <ul class="comment-list" v-if="item.comment">
+          <li v-for='(item,index) in filterSent' :key="index">
+            <span>{{item.username}}</span>
+            <span>{{item.content}}</span>
+          </li>
+        </ul>
+      </slot>
     </footer>
   </article>
 </template>
 
 <script>
-import {findSentence} from 'network/session';
+import { findSentence, setLike, removeLike ,comment} from "network/session";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Sentence",
   data() {
     return {
-      item:null
+      item: null,
+      text:''
     };
   },
   props: {
     singalItem: Object
   },
-  methods: {
-    // toOtherProfile() {
-    //   // console.log(this.singalItem.creator._id);
-    //   // this.$router.push({
-    //   //   path: "/profile",
-    //   //   query: this.singalItem.creator._id
-    //   // });
-    //    this.$router.push('/profile/'+this.singalItem.creator._id)
-    // }
+  computed: {
+    ...mapState(["adminInfo"]),
+    showLikes() {
+      return this.adminInfo.likes.some(
+        item => item._id === this.singalItem._id
+      );
+    },
+    // 评论过滤为倒序
+    filterSent() {
+      // 评论时间降序
+      let item = this.item;
+      function compare(a, b) {
+        if (a.create_time > b.create_time) {
+          return -1;
+        } else if (a.create_time < b.create_time) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+      item.comment.sort(compare);
+      return item.comment;
+    },
 
   },
-  created(){
-    findSentence(this.singalItem._id).then(res=>{
-      console.log(res);
-      this.item=res.data.data
-    })
+  methods: {
+    ...mapActions(["getAdmin"]),
+    // 点赞、取消点赞
+    like() {
+      if (!this.showLikes) {
+        // 设置点赞
+        setLike(this.item._id).then(res => {
+          console.log(res);
+          // 刷新管理员信息
+          if (res.data.status === 1) {
+            this.getAdmin();
+            this.item.cntLike++;
+          } else if (res.data.status === 0) {
+            alert(res.data.message);
+          }
+        });
+      } else {
+        // 取消点赞
+        removeLike(this.item._id).then(res => {
+          console.log(res);
+          // 刷新管理员信息
+          if (res.data.status === 1) {
+            this.item.cntLike--;
+            this.getAdmin();
+          }
+        });
+      }
+    },
+    giveComment(id){
+      comment(id, this.text).then(res => {
+        console.log(res);
+        if (res.data.status === 1) {
+          alert(res.data.message);
+          // 设置文本框为空，更新评论信息??
+          this.text = "";
+        }
+      });
+    }
+  },
+  created() {
+    findSentence(this.singalItem._id).then(res => {
+      // console.log(res);
+      this.item = res.data.data;
+    });
   }
 };
 </script>
@@ -132,10 +201,35 @@ header img {
   font-size: 14px;
 }
 .message,
-.love,
 .addAlbum {
   vertical-align: middle;
   display: inline-block;
-  width: 25px;
+  width: 20px;
+}
+.comment {
+  width: 100%;
+  margin-top: 15px;
+  padding-top: 10px;
+  padding-bottom: 11px;
+  border: none;
+  border-top: 1px solid #e6e6e6;
+  outline: none;
+  resize: none;
+  line-height: 20px;
+}
+.comment-list{
+  /* padding-bottom: 14px; */
+    text-align: left;
+    font-size: 13px;
+    overflow: hidden;
+    max-height: 100px;
+}
+.comment-list li{
+  margin-bottom: 5px;
+}
+.comment-list li span:first-child{
+    color: #000;
+    font-weight: 700;
+    margin-right: 6px;
 }
 </style>

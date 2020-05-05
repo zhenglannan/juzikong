@@ -16,6 +16,7 @@ const Register = () => import("common/login/Register")
 
 const CollectionDetail = () => import("content/collectionDetail/CollectionDetail")
 const SentenceDetail = () => import("content/sentence/SentenceDetail")
+const Search = () => import("content/search/Search")
 
 Vue.use(VueRouter)
 
@@ -116,6 +117,11 @@ const routes = [
     // 点开juzi
     path: '/sentenceDetail/:id',
     component: SentenceDetail,
+  },
+  {
+    // 搜索界面
+    path: '/search',
+    component: Search,
   }
 ]
 

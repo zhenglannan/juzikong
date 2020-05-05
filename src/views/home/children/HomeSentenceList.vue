@@ -2,24 +2,27 @@
   <div class="homeSentenceList">
     <Sentence v-for="(item) in list" :key="item._id" :singalItem=item>
       <header slot="header"  v-if="item.creator">
-        <a @click="toOtherProfile">
+        <a @click="toOtherProfile(item.creator._id)">
           <img :src="item.creator.avatar" alt />
           <span>{{item.creator.username}}</span>
         </a>
       </header>
-      <section slot="footer">
+      <!-- <section slot="footer"> -->
          <!-- <el-input class="commentInput" type="text" placeholder="我也评论一句..." v-model="text" @keypress.enter="giveComment"></el-input> -->
-        <input type="text" placeholder="我也评论一句..." class="comment" v-model="text"   @keydown.enter="giveComment"/>
-      </section>
+        <!-- <input type="text" placeholder="我也评论一句..." class="comment" v-model="text"   @keydown.enter="giveComment(item._id)"/>
+        <ul class="comment-list" v-if="item.comment">
+          <li v-for='(item,index) in item.comment' :key="index">
+            <span>{{item.username}}</span>
+            <span>{{item.content}}</span>
+          </li>
+        </ul> -->
+      <!-- </section> -->
     </Sentence>
   </div>
 </template>
 
 <script>
 import Sentence from "content/sentence/Sentence";
-import {
-  comment
-} from "network/session";
 export default {
   name: "HomeSentenceList",
   data() {
@@ -28,27 +31,27 @@ export default {
     };
   },
   props:{
-    list:Array
+    list:Array 
   },
   components: {
     Sentence
   },
   methods: {
     // 点击用户
-    toOtherProfile() {
-       this.$router.push('/profile/'+this.singalItem.creator._id)
+    toOtherProfile(id) {
+       this.$router.push('/profile/'+id)
     },
     // 回车评论？？
-    giveComment(){
-      comment(item._id, this.text).then(res => {
-        console.log(res);
-        if (res.data.status === 1) {
-          alert(res.data.message);
-          // 设置文本框为空，更新评论信息
-          this.text = "";
-        }
-      });
-    }
+    // giveComment(id){
+    //   comment(id, this.text).then(res => {
+    //     console.log(res);
+    //     if (res.data.status === 1) {
+    //       alert(res.data.message);
+    //       // 设置文本框为空，更新评论信息??
+    //       this.text = "";
+    //     }
+    //   });
+    // }
   },
 };
 </script>
@@ -57,17 +60,7 @@ export default {
 .homeSentenceList {
   /* width: 50%; */
 }
-.comment {
-  width: 100%;
-  margin-top: 15px;
-  padding-top: 10px;
-  padding-bottom: 11px;
-  border: none;
-  border-top: 1px solid #e6e6e6;
-  outline: none;
-  resize: none;
-  line-height: 20px;
-}
+
 header{
   display: flex;
   align-items: center;
@@ -82,4 +75,6 @@ header img {
   border-radius: 50%;
       vertical-align: middle;
 }
+
+
 </style>

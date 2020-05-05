@@ -17,7 +17,8 @@ export default new Vuex.Store({
     userInfo:null, //点击的用户信息(包括管理员),
     isAdmin: JSON.parse(window.localStorage.getItem('isAdmin')), //设置变量判断是否是管理员（控制有些操作不显示）
     dialogFormVisible:false,
-
+    profileSearch:null,
+    // searchSentences
   },
   mutations: {
     //登陆设置管理员信息
@@ -46,9 +47,12 @@ export default new Vuex.Store({
       window.localStorage.setItem('isAdmin', JSON.stringify(payload))
       state.isAdmin=payload
     },
-    // 设置对话框是否可见
+    // 设置对话框是否可见??
     setDialogFormVisible(state,payload){
       state.dialogFormVisible=payload
+    },
+    setProfileSearch(state,payload){
+      state.profileSearch=payload
     }
   },
   actions: {

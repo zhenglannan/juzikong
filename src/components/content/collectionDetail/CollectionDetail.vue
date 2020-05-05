@@ -44,12 +44,33 @@
           </div>
         </div>
       </section>
+      <section>
+        <div class="card-header_1KJGo">
+          <span>
+            <a>{{collection.name}}</a>的其它专辑
+          </span>
+        </div>
+        <div class="card-body_27oCG">
+          <ul class="list_2Kmaa">
+            <li v-for="(item) in filterCollections" :key="item._id">
+              <div>
+                <a>
+                  <img :src="item.cover" class="otherCover" />
+                </a>
+                <div class="otherContent">
+                  <a>{{item.name}}</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
     </div>
-    <editCollectionDialog
+    <EditCollectionDialog
       :editdialogVisible="editdialogVisible"
       :collection="collection"
       @childClose="childEditClose"
-    ></editCollectionDialog>
+    ></EditCollectionDialog>
     <PostToColDialog
       :dialogFormVisible="dialogFormVisible"
       :collection="collection"
@@ -59,7 +80,7 @@
 </template>
 
 <script>
-import editCollectionDialog from "content/dialog/editCollectionDialog";
+import EditCollectionDialog from "content/dialog/EditCollectionDialog";
 import PostToColDialog from "content/dialog/PostToColDialog";
 import CollectionSen from "./CollectionSen";
 
@@ -78,8 +99,8 @@ export default {
   },
   components: {
     CollectionSen,
-    editCollectionDialog,
-    PostToColDialog,
+    EditCollectionDialog,
+    PostToColDialog
   },
   methods: {
     // ...mapMutations(["setDialogFormVisible"]),
@@ -87,11 +108,11 @@ export default {
     // 子组件不能改变props的值，只能传递事件给父组件，让父组件改变值
     childPostClose() {
       this.dialogFormVisible = false;
-       this.findCollection(this.$route.params.id);
+      this.findCollection(this.$route.params.id);
     },
     childEditClose() {
       this.editdialogVisible = false;
-       this.findCollection(this.$route.params.id);
+      this.findCollection(this.$route.params.id);
     },
     // 查找专辑
     findCollection(id) {
@@ -145,7 +166,12 @@ export default {
     this.findCollection(this.$route.params.id);
   },
   computed: {
-    ...mapState(["isAdmin", "adminInfo"])
+    ...mapState(["isAdmin", "adminInfo"]),
+    filterCollections() {
+      return this.adminInfo.collections.filter(
+        item => item._id !== this.collection._id
+      );
+    }
   }
 };
 </script>
@@ -206,6 +232,10 @@ export default {
   width: 300px;
   margin-left: 15px;
 }
+.aside section:last-child {
+  background-color: #fff;
+  margin-bottom: 20px;
+}
 .card {
   background-color: #fff;
   margin-bottom: 20px;
@@ -238,5 +268,27 @@ export default {
   cursor: pointer;
   margin-right: 8px;
   margin-top: 2px;
+}
+
+.card-header_1KJGo {
+  padding: 10px 20px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.card-body_27oCG {
+  padding: 0 20px 10px;
+}
+.otherCover{
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  vertical-align: top;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.otherContent {
+  display: inline-block;
+}
+.list_2Kmaa li {
+    padding: 10px 0;
 }
 </style>

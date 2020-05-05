@@ -1,6 +1,15 @@
 <template>
   <div id="navbar">
-    <el-button type="primary" @click="post" >发布句子</el-button>
+    <el-button type="primary" @click="post">发布句子</el-button>
+    <el-autocomplete
+      v-model="state"
+      :fetch-suggestions="querySearchAsync"
+      @select="handleSelect"
+      placeholder="搜索..."
+      :clearable="true"
+    >
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="search"></i>
+    </el-autocomplete>
     <router-link to="/home">首页</router-link>
     <router-link to="/discovery">句子</router-link>
     <router-link to="/channels">分类</router-link>
@@ -15,10 +24,10 @@
     </div>
     <PostDialog :dialogFormVisible="dialogFormVisible"></PostDialog>
   </div>
-  
 </template>
 
 <script>
+import { getAllSentence } from "network/home";
 import { signout } from "network/session";
 import PostDialog from "content/dialog/PostDialog";
 import { mapState, mapMutations } from "vuex";
@@ -28,13 +37,17 @@ export default {
   data() {
     return {
       // dialogFormVisible: false
+      state: "",
+      timeout: null,
+      keyWords: [],
+      allSentences: []
     };
   },
   components: {
     PostDialog
   },
   methods: {
-    ...mapMutations(["deleteAdminInfo",'setDialogFormVisible']),
+    ...mapMutations(["deleteAdminInfo", "setDialogFormVisible"]),
     //登出
     loginOut() {
       signout().then(res => {
@@ -53,16 +66,61 @@ export default {
     },
     post() {
       // this.dialogFormVisible = true;
-      this.setDialogFormVisible(true)
+      this.setDialogFormVisible(true);
+    },
+    loadAll() {
+      return [{ value: "鲁迅" }, { value: "张爱玲" }];
+    },
+    // 根据输入内容提供对应的输入建议
+    querySearchAsync(queryString, cb) {
+      var allSentences = this.allSentences;
+      var results = queryString
+        ? allSentences.filter(this.createStateFilter(queryString))
+        : this.keyWords;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        // 输入建议列表的数据只来源于data:[]（results） 中的 value 字段！！！
+        cb(results);
+      }, 3000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return state => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    // 选择之后直接跳转操作
+    handleSelect(item) {
+      // console.log(item);
+      this.$router.push("/sentenceDetail/" + item._id);
+    },
+    search() {
+      // console.log(123);
+      this.$router.push({
+        path: "/search",
+        query: {
+          q: this.state
+        }
+      });
     }
   },
   computed: {
-    ...mapState(["login", "adminInfo",'dialogFormVisible'])
+    ...mapState(["login", "adminInfo", "dialogFormVisible"])
   },
-  created() {
-    // this.checkLogin();
-    // console.log("login" + " " + this.login);
-  }
+  mounted() {
+    this.keyWords = this.loadAll();
+    // 对返回的数据进行处理，加上value字段
+    getAllSentence().then(res => {
+      // console.log(res.data);
+      // this.allSentences=res.data;
+      for (let item of res.data) {
+        this.allSentences.push({ value: item.content, _id: item._id });
+      }
+    });
+  },
+  created() {}
 };
 </script>
 
@@ -82,5 +140,8 @@ export default {
   left: 0;
   right: 0;
   z-index: 12;
+}
+.el-icon-search {
+  cursor: pointer;
 }
 </style>

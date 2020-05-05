@@ -68,6 +68,7 @@ export default {
             console.log(res);
             // 刷新管理员信息
               if(res.data.status===1){
+                this.$refs[formName].resetFields();
                 this.getAdmin();
                 this.$router.push('/sentenceDetail/'+res.data.data._id)
               }

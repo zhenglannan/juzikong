@@ -6,6 +6,7 @@
         <span class="username">{{singalItem.creator.username}}</span>
       </a>
     </header>
+
     <div class="scenbody">
       <p
         class="scenbody-post"
@@ -16,36 +17,14 @@
         <span class="work">{{singalItem.referWorkName}}</span>
       </div>
     </div>
-
-    <footer class="footer">
-      <div class="functions clearfix">
-        <span>
-          <a @click="$router.push('/sentenceDetail/'+singalItem._id)">
-            <span class="message">
-              <i class="el-icon-edit"></i>
-            </span>
-            <span class="number">{{singalItem.cntComment}}</span>
-          </a>
-        </span>
-        <span>
-          <a @click="like">
-            <span class="love">
-              <i class="el-icon-star-on" v-if="showLikes"></i>
-              <i class="el-icon-star-off" v-else></i>
-            </span>
-          </a>
-          <span class="number">{{singalItem.cntLike}}</span>
-        </span>
-      </div>
-    </footer>
   </article>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { setLike, removeLike, findSentence } from "network/session";
+import { findSentence } from "network/session";
 export default {
-  name: "CollectionSen",
+  name: "SearchSen",
   data() {
     return {
       singalItem: null
@@ -56,49 +35,18 @@ export default {
     item: Object
   },
   computed: {
-    ...mapState(["adminInfo"]),
-    // 是否显示已点赞图标
-    showLikes() {
-      return this.adminInfo.likes.some(
-        item => item._id === this.singalItem._id
-      );
-    }
+    ...mapState(["adminInfo"])
   },
   methods: {
     ...mapActions(["getAdmin"]),
-    // 点赞、取消点赞实现图片变换
-    like() {
-      if (!this.showLikes) {
-        // 设置点赞
-        setLike(this.singalItem._id).then(res => {
-          console.log(res);
-          // 刷新管理员信息
-          if (res.data.status === 1) {
-            this.getAdmin();
-            this.singalItem.cntLike++;
-          } else if (res.data.status === 0) {
-            alert(res.data.message);
-          }
-        });
-      } else {
-        // 取消点赞
-        removeLike(this.singalItem._id).then(res => {
-          console.log(res);
-          // 刷新管理员信息
-          if (res.data.status === 1) {
-            this.singalItem.cntLike--;
-            this.getAdmin();
-          }
-        });
-      }
-      // return this.singalItem.getLike? this.singalItem.getLike=false: this.singalItem.getLike=true
-    },
     // 点击用户
     toOtherProfile() {
       this.$router.push("/profile/" + this.singalItem.creator._id);
     }
   },
   created() {
+    console.log(23);
+
     findSentence(this.item._id).then(res => {
       // console.log(res.data.data);
       this.singalItem = res.data.data;
@@ -112,20 +60,20 @@ export default {
   padding: 15px 0;
   border-bottom: 1px solid gainsboro;
 }
-.scentence>header{
+.scentence > header {
   display: flex;
-    align-items: center;
-    margin-bottom: 12px;
+  align-items: center;
+  margin-bottom: 12px;
 }
-.username{
+.username {
   vertical-align: super;
 }
-.avatar_30uNb{
-      width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 8px;
-    overflow: hidden;
+.avatar_30uNb {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+  overflow: hidden;
 }
 .scentence:last-child {
   border: none;

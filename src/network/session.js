@@ -97,6 +97,22 @@ export function comment(id,comment) {
     }
   })
 }
+//收藏句子
+export function collect(collectionId,id) {
+  return axios('/admin/collect/'+collectionId,{
+    params:{
+      id:id
+    }
+  })
+}
+//取消收藏句子
+export function cancelCollect(collectionId,id) {
+  return axios('/admin/cancelCollect/'+collectionId,{
+    params:{
+      id:id
+    }
+  })
+}
 //编辑个人信息
 export function updateInfo(formdata) {
   return axios.post('/admin/updateInfo', formdata)
@@ -105,4 +121,24 @@ export function updateInfo(formdata) {
 //更改密码
 export function updatePwd(formdata) {
   return axios.post('/admin/updatePwd', formdata)
+}
+//关注用户
+export function starUser(id,avatar,name) {
+  return axios('/admin/starUser', {
+    params:{
+      _id:id,
+      avatar:avatar,
+      name:name
+    }
+  })
+}
+//取消关注用户
+export function cancelStarUser(id,avatar,name) {
+  return axios('/admin/cancelStarUser', {
+    params:{
+      _id:id,
+      avatar:avatar,
+      name:name
+    }
+  })
 }

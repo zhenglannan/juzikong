@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="collection">
       <div class="img">
-        <img :src="item.cover"  @click="toCollection"/>
+        <img :src="item.cover"  @click="toCollection" />
       </div>
       <div class="info">
         <div class="name" @click="toCollection">{{item.name}}</div>
@@ -12,11 +12,12 @@
 </template>
 
 <script>
+import {findCollection} from 'network/session';
 export default {
   name: "Collection",
   data() {
     return {
-      id:this.item._id
+      // collection:null
     };
   },
   props: {
@@ -24,9 +25,14 @@ export default {
   },
   methods: {
     toCollection(){
-      this.$router.push('/collectionDetail/'+this.id)
+      this.$router.push('/collectionDetail/'+this.item._id)
     }
-  }
+  },
+//   created(){
+//     findCollection(this.item._id).then(res=>{
+// this.collection=res.data.data
+//     })
+//   }
 };
 </script>
 
@@ -47,6 +53,11 @@ export default {
   width: 240px;
   height: 240px;
   cursor: pointer;
+}
+.img>img{
+  width:100%;
+  height:100%;
+  display:inline-block
 }
 .info {
   padding: 12px 10px;
