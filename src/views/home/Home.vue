@@ -2,12 +2,20 @@
   <div id="home" class="container">
     <div class="list">
       <HomeCategory :title="['电影台词','小说摘抄','散文美句','动漫台词','连续剧台词','书籍名句']"></HomeCategory>
+      <!-- <el-breadcrumb separator="/" class="hometab">
+        <el-breadcrumb-item @click="getHot">热门</el-breadcrumb-item>
+        <el-breadcrumb-item @click="getNew">最新</el-breadcrumb-item>
+      </el-breadcrumb>-->
+
+      <!-- <ul class="hometab"> -->
+      <!-- <li v-for="(item,index)in tabs" :key="index">{{item}}</li> -->
       <div class="hometab">
         <span @click="getHot">热门</span>
         <span class="twotab" @click="getNew">最新</span>
       </div>
+      <!-- </ul> -->
       <HomeSentenceList :list="sentencesList"></HomeSentenceList>
-      <el-button :loading="loading" @click.native="load" v-if="newData.length">{{loadText}}</el-button>
+      <el-button :loading="loading" @click="load" v-if="newData.length">{{loadText}}</el-button>
     </div>
     <aside></aside>
   </div>
@@ -25,7 +33,10 @@ export default {
       loading: false,
       sentencesList: [],
       newData: [],
-      currentType: "hot"
+      currentType: "hot",
+      currentPage: 1,
+      pageSize: 10,
+      tabs: ["热门", "最新"]
     };
   },
   components: {
@@ -35,7 +46,7 @@ export default {
   methods: {
     // 首页句子请求
     getHomeSentence(type) {
-      getHomeSentence(type).then(res => {
+      getHomeSentence(type, this.currentPage, this.pageSize).then(res => {
         console.log(res.data);
         // 1.a.push.apply(a,b)调用a.push这个函数实例的apply方法，同时把，b当作参数传入，这样a.push这个方法就会遍历b数组的所有元素，达到合并的效果
         // this.sentencesList.push.apply[this.sentencesList,res.data];
@@ -46,6 +57,7 @@ export default {
     },
     // 底部加载更多按钮
     load() {
+      this.currentPage++;
       this.loading = true;
       setTimeout(() => {
         this.getHomeSentence(this.currentType);
@@ -53,10 +65,13 @@ export default {
       }, 2000);
     },
     getHot() {
+      this.sentencesList = [];
+      this.currentPage = 1;
       this.getHomeSentence("hot");
       this.currentType = "hot";
     },
     getNew() {
+      this.currentPage = 1;
       this.sentencesList = [];
       this.getHomeSentence("new");
       this.currentType = "new";
@@ -88,10 +103,10 @@ export default {
   font-size: 18px;
   cursor: pointer;
 }
-.twotab::before {
+.twotab::before{
   content: "/";
-  margin: 0 15px;
-  font-size: 14px;
+    margin: 0 15px;
+    font-size: 14px;
 }
 #home > aside {
   width: 100%;

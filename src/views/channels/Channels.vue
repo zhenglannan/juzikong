@@ -1,9 +1,11 @@
 <template>
-  <div id="category" class="container">
+  <div class="container">
+    <div>
     <WorkCate></WorkCate>
     <AuthorCountryCate></AuthorCountryCate>
     <AuthorDynastyCate></AuthorDynastyCate>
     <AuthorJobCate></AuthorJobCate>
+    </div>
   </div>
 </template>
 
@@ -29,11 +31,14 @@ export default {
 </script>
 
 <style scoped>
-#category {
+.container {
   /* margin-top: 40px;
   margin-left: auto;
   margin-right: auto; */
   padding: 20px 40px;
   background-color: #fff;
+}
+.container>div{
+  width: 100%;
 }
 </style>

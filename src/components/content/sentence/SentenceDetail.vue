@@ -123,7 +123,7 @@ AddToCollection
       let sentence = this.sentence;
       function compare(a, b) {
         if (a.create_time > b.create_time) {
-          return -1;
+          return -1;//
         } else if (a.create_time < b.create_time) {
           return 1;
         } else {

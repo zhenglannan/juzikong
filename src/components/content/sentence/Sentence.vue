@@ -188,7 +188,7 @@ header img {
 }
 .functions > span {
   display: inline-block;
-  vertical-align: bottom;
+  /* vertical-align: bottom; */
   padding: 0 8px;
   color: #000;
   text-decoration: none;

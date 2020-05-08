@@ -17,13 +17,13 @@ export default {
     title: {
       type: String,
       default() {
-        return "作品分类";
+        return "";
       }
     },
     tags: {
       type: Array,
       default() {
-        return ["花", "花","花","花","花","花","花","花"];
+        return [];
       }
     }
   },
@@ -37,7 +37,9 @@ export default {
 
 <style scoped>
 .channel {
+  /* width:920px; */
   margin: 20px 0;
+  /* display: inline-block; */
 }
 .channel dt {
   font-size: 22px;

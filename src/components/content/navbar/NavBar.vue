@@ -12,7 +12,20 @@
     </el-autocomplete>
     <router-link to="/home">首页</router-link>
     <router-link to="/discovery">句子</router-link>
-    <router-link to="/channels">分类</router-link>
+    <el-dropdown @command="handleCommand">
+      <span class="el-dropdown-link" @click="$router.push('/channels')">
+        分类
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="movies">电影台词</el-dropdown-item>
+        <el-dropdown-item command="novels">小说摘抄</el-dropdown-item>
+        <el-dropdown-item command="proses">散文美句</el-dropdown-item>
+        <el-dropdown-item command="animes">动漫台词</el-dropdown-item>
+        <el-dropdown-item command="series">连续剧台词</el-dropdown-item>
+        <el-dropdown-item command="books">书籍名句</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <!-- <router-link to="/channels">分类</router-link> -->
     <a @click="toProfile">我的</a>
     <div class="enterOperation" v-if="!login">
       <router-link to="/login">登陆</router-link>
@@ -104,6 +117,10 @@ export default {
           q: this.state
         }
       });
+    },
+    // 点击下拉菜单
+    handleCommand(command){
+      this.$router.push('/categories/work/'+command)
     }
   },
   computed: {
@@ -120,7 +137,7 @@ export default {
       }
     });
   },
-  created() {}
+  // created() {}
 };
 </script>
 
@@ -144,4 +161,8 @@ export default {
 .el-icon-search {
   cursor: pointer;
 }
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
 </style>

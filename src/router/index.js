@@ -88,7 +88,7 @@ const routes = [
     },
   }, {
     // 专辑分类页面
-    path: '/categories/work/:workId',
+    path: '/categories/work/:type',
     component: CategoriesWork,
     meta: {
       title: '专辑分类'

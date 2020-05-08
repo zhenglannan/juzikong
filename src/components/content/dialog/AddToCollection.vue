@@ -67,7 +67,7 @@ export default {
         // 刷新管理员信息
         if (res.data.status === 1) {
           // this.showDisable = true;
-          this.getAdmin();
+          // this.getAdmin();
         }
       });
     },
@@ -88,14 +88,6 @@ export default {
   },
   computed: {
     ...mapState(["adminInfo"]),
-    // showDisable() {
-    //   return function(id) {
-    //     findCollection(id).then(res => {
-    //       const collection = res.data.data;
-    //       return collection.posts.find(item => item._id === this.sentence._id);
-    //     });
-    //   };
-    // }
     showCollect() {
       return function(id) {
         findCollection(id).then(res => {

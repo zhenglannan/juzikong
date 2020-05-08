@@ -1,7 +1,5 @@
 <template>
-<div>
 <Cate title="作者国家" :tags="['美国','英国','法国','德国','日本','希腊','意大利']"></Cate>
-</div>
 </template>
 
 <script>

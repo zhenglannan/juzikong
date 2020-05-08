@@ -1,7 +1,5 @@
 <template>
-  <div>
     <Cate title="作品分类" :tags="['电影台词','小说摘抄','散文美句','动漫台词','连续剧台词','书籍名句']" @cateClick="cateClick"></Cate>
-  </div>
 </template>
 
 <script>
@@ -10,7 +8,7 @@ export default {
   name: "WorkCate",
   data() {
     return {
-      workId: ["movies", "novels", "proses", "animes", "series", "books"]
+      types: ["movies", "novels", "proses", "animes", "series", "books"]
     };
   },
   components: {
@@ -18,9 +16,10 @@ export default {
   },
   methods: {
     cateClick(index) {
-      this.$router.push("/categories/work/" + this.workId[index]);
+      this.$router.push("/categories/work/" + this.types[index]);
     }
-  }
+  },
+  
 };
 </script>
 
