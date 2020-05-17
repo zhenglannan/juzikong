@@ -56,7 +56,15 @@ export default {
   },
   created() {
     this.isAdmin();
+  },
+  watch:{
+    $route(to){
+      // console.log(to.params.id);
+       this.getUserInfo(to.params.id)
+      
+    }
   }
+  
 };
 </script>
 

@@ -12,7 +12,7 @@
       <div class=" el-col-18 el-col-xs-16 clearfix">
         <div class="el-row right_1P24C">
           <div class="nickname_2HR9f">{{userInfo.user_name}}</div>
-          <a class="edit-profile_1BOKl" @click="$router.push('/setInfo')" v-if="isAdmin">
+          <a class="edit-profile_1BOKl" @click="$router.push('/setInfo')" v-if="userInfo._id===adminInfo._id">
             <span>编辑个人信息</span>
           </a>
           <el-button type="primary" round  size="mini" v-if="!showStar" @click="star" v-show='showBtn'>加关注</el-button>
@@ -21,12 +21,12 @@
         <el-col :span="24"><div class='intro'>{{userInfo.intro}}</div></el-col>
         <div class="el-col el-col-24">
           <div class="state_1an_I">
-            <span class="num_1GWDg">{{userInfo.cntFollower||0}}</span>
+            <span class="num_1GWDg" @click="showFollers">{{userInfo.cntFollower||0}}</span>
             关注者
           </div>
           <div class="state_1an_I">
             正在关注
-            <span class="num_1GWDg">{{userInfo.cntFollowing||0}}</span>
+            <span class="num_1GWDg"  @click="showFollerings">{{userInfo.cntFollowing||0}}</span>
           </div>
           <div class="state_1an_I">
             收获喜欢
@@ -35,16 +35,25 @@
         </div>
       </div>
     </div>
+    <showfollowDialog :dialogFormVisible='dialogFormVisible' :title='title' :userfollow='userfollow' @childClose='childClose'></showfollowDialog>
   </div>
 </template>
 
 <script>
+import showfollowDialog from 'content/dialog/showfollowDialog'
 import { mapState,mapActions } from "vuex";
 import {starUser,cancelStarUser} from 'network/session'
 export default {
   name: "UserInfo",
   data() {
-    return {};
+    return {
+      dialogFormVisible:false,
+      title:'',
+      userfollow:[]
+    };
+  },
+  components:{
+showfollowDialog
   },
   // props:{
   //   userInfo:Object
@@ -70,6 +79,21 @@ export default {
           alert(res.data.message)
         }
       })
+    },
+    // 显示关注者列表
+    showFollers(){
+      this.userfollow=[...this.userInfo.followers],
+      this.dialogFormVisible=true;
+      this.title='关注者'
+    },
+    // 显示正在关注列表
+    showFollerings(){
+      this.userfollow=[...this.userInfo.followings],
+      this.dialogFormVisible=true;
+            this.title='正在关注'
+    },
+    childClose(){
+      this.dialogFormVisible=false
     }
   },
   computed: {
@@ -78,6 +102,7 @@ export default {
     showStar(){
       return this.adminInfo.followings.some(item=>item._id===this.userInfo._id)
     },
+    // 是管理员时不用关注按钮
     showBtn(){
       return this.userInfo._id!==this.adminInfo._id
     }
@@ -130,11 +155,16 @@ export default {
 .state_1an_I {
   display: inline-block;
   margin: 0 20px 10px 0;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .num_1GWDg {
   font-weight: 500;
+  cursor: pointer
 }
+/* .num_1GWDg:last-child{
+  cursor:none
+} */
+
 .el-row::before{
     display: table;
     content: "";

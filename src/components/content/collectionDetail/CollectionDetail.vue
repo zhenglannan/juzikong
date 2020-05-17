@@ -19,7 +19,12 @@
           </div>
         </div>
         <div class="list">
-          <CollectionSen v-for="(item,index) in collection.posts" :key="item._id" :item="item"></CollectionSen>
+          <CollectionSen
+            v-for="(item,index) in collection.posts"
+            :key="item._id"
+            :item="item"
+            @cancelCollect="cancelCollect"
+          ></CollectionSen>
         </div>
       </div>
     </div>
@@ -84,7 +89,11 @@ import EditCollectionDialog from "content/dialog/EditCollectionDialog";
 import PostToColDialog from "content/dialog/PostToColDialog";
 import CollectionSen from "./CollectionSen";
 
-import { findCollection, deleteCollection } from "network/session";
+import {
+  findCollection,
+  deleteCollection,
+  cancelCollect
+} from "network/session";
 import { mapState, mapMutations, mapActions } from "vuex";
 // import Sentence from "content/sentence/Sentence";
 export default {
@@ -158,6 +167,30 @@ export default {
       // }
       this.dialogFormVisible = true;
       // console.log(this.dialogFormVisible);
+    },
+    // 取消收藏
+    cancelCollect(id) {
+      this.$confirm("确认取消收藏?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          cancelCollect(this.$route.params.id, id).then(res => {
+            console.log(res);
+            // 刷新管理员信息/专辑界面数据重新获取
+            if (res.data.status === 1) {
+              // this.getAdmin();
+              this.findCollection(this.$route.params.id);
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   },
   created() {
@@ -277,7 +310,7 @@ export default {
 .card-body_27oCG {
   padding: 0 20px 10px;
 }
-.otherCover{
+.otherCover {
   width: 40px;
   height: 40px;
   margin-right: 8px;
@@ -289,6 +322,6 @@ export default {
   display: inline-block;
 }
 .list_2Kmaa li {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 </style>

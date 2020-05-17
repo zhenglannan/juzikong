@@ -7,10 +7,7 @@
       </a>
     </header>
     <div class="scenbody">
-      <p
-        class="scenbody-post"
-        @click="$router.push('/sentenceDetail/'+singalItem._id)"
-      >{{singalItem.content}}</p>
+      <pre class="scenbody-post" @click="$router.push('/sentenceDetail/'+singalItem._id)">{{singalItem.content}}</pre>
       <div class="scenbody-from">
         <span class="author">{{singalItem.referAuthorName}}</span>
         <span class="work">{{singalItem.referWorkName}}</span>
@@ -36,6 +33,7 @@
           </a>
           <span class="number">{{singalItem.cntLike}}</span>
         </span>
+        <span class="collect" @click="cancelCollect">取消收藏</span>
       </div>
     </footer>
   </article>
@@ -96,7 +94,11 @@ export default {
     // 点击用户
     toOtherProfile() {
       this.$router.push("/profile/" + this.singalItem.creator._id);
+    },
+    cancelCollect(){
+      this.$emit('cancelCollect',this.item._id)
     }
+  
   },
   created() {
     findSentence(this.item._id).then(res => {
@@ -112,20 +114,20 @@ export default {
   padding: 15px 0;
   border-bottom: 1px solid gainsboro;
 }
-.scentence>header{
+.scentence > header {
   display: flex;
-    align-items: center;
-    margin-bottom: 12px;
+  align-items: center;
+  margin-bottom: 12px;
 }
-.username{
+.username {
   vertical-align: super;
 }
-.avatar_30uNb{
-      width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 8px;
-    overflow: hidden;
+.avatar_30uNb {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+  overflow: hidden;
 }
 .scentence:last-child {
   border: none;
@@ -178,10 +180,21 @@ export default {
   vertical-align: bottom;
 }
 .message,
-.love,
-.addAlbum {
+.love {
   vertical-align: middle;
   display: inline-block;
   width: 25px;
+}
+.functions .collect {
+  display: none;
+  float: right;
+  margin-top: 2px;
+  vertical-align: bottom;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+}
+.scentence:hover .collect {
+  display: inline;
 }
 </style>

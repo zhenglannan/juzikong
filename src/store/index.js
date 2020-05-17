@@ -9,7 +9,7 @@ import {
 Vue.use(Vuex) 
 
 export default new Vuex.Store({
-  // localStorage.setItem(key, String), set的值必须是字符串，如果你的数据是对象都需要先行转换（JSON.stringify(xxx)）,取出时localStorage.getItem(key)，如果不是字符串，取出后可以通过JSON.parse(xxx)转回对象。
+  // localStorage.setItem(key, String), set的值必须是字符串，如果你的数据是对象都需要先行转换（JSON.stringify(xxx)）,取出时localStorage.getItem(key)，如果不是对象？?，取出后可以通过JSON.parse(xxx)转回对象。
   state: {
     login: JSON.parse(window.localStorage.getItem('login')), //是否登陆状态
     adminInfo: JSON.parse(window.localStorage.getItem('adminInfo')), //管理员信息

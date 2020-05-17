@@ -6,7 +6,7 @@
         <article class="container_sen">
           <div class="body">
             <h1>
-              <span>{{sentence.content}}</span>
+              <pre>{{sentence.content}}</pre>
             </h1>
             <div class="source">
               <span class>{{sentence.referAuthorName}}</span>
@@ -103,7 +103,7 @@ AddToCollection
   },
   computed: {
     ...mapState(["adminInfo"]),
-    //
+    //显示是否已点赞
     showLikes() {
       return this.adminInfo.likes.some(item => item._id === this.sentence._id);
     },
@@ -125,9 +125,9 @@ AddToCollection
         if (a.create_time > b.create_time) {
           return -1;//
         } else if (a.create_time < b.create_time) {
-          return 1;
+          return 1; 
         } else {
-          return 0;
+          return 0; 
         }
       }
       sentence.comment.sort(compare);
@@ -217,9 +217,11 @@ AddToCollection
         });
       }
     },
+    // 收藏按钮
     addToCollection() {
       this.dialogFormVisible = true;
     },
+    // 子组件传递关闭事件
     childPostClose() {
       this.dialogFormVisible = false;
     }

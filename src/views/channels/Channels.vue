@@ -26,7 +26,11 @@ export default {
     AuthorDynastyCate,
     AuthorJobCate
   },
-  methods: {}
+  methods: {},
+  created(){
+        console.log('Channels'+' '+this.$route.params);
+
+  }
 };
 </script>
 
@@ -40,5 +44,6 @@ export default {
 }
 .container>div{
   width: 100%;
+      padding-left: 51px;
 }
 </style>

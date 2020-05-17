@@ -10,26 +10,15 @@
             <a>{{item.name}}</a>
           </div>
         </div>
-        <el-button
-          type="primary"
-          plain
-          @click="collect(item._id)"
-           v-if='!showCollect(item._id)'
-        >收藏</el-button>
-        <el-button
-          type="primary"
-          plain2
-          @click="cancelCollect(item._id)"
-          v-else
-        >已收藏</el-button>
-        
+        <el-button type="primary" plain @click="collect(item._id)" >收藏</el-button>
+        <!-- <el-button type="primary" plain2 @click="cancelCollect(item._id)" v-else>已收藏</el-button> -->
 
         <!-- <el-button
           type="primary"
           plain
           @click="collect(item._id)"
           :disabled="showDisable(item._id)"
-        >收藏</el-button> -->
+        >收藏</el-button>-->
       </li>
     </ul>
     <div slot="footer" class="dialog-footer">
@@ -39,12 +28,8 @@
 </template> 
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
-import {
-  collect,
-  cancelCollect,
-  findCollection,
-} from "network/session";
+import { mapState, mapMutations } from "vuex";
+import { collect, cancelCollect, findCollection } from "network/session";
 
 export default {
   name: "AddToCollection",
@@ -59,15 +44,26 @@ export default {
   },
   methods: {
     // ...mapMutations(["setDialogFormVisible"]),
-    ...mapActions(["getAdmin"]),
+    // ...mapActions(["getAdmin"]),
     // 收藏
     collect(id) {
-      collect(id, this.sentence._id).then(res => {
-        console.log(res);
-        // 刷新管理员信息
-        if (res.data.status === 1) {
-          // this.showDisable = true;
-          // this.getAdmin();
+      findCollection(id).then(res => {
+        // 重复收藏
+        if (res.data.data.posts.some(item => item._id === this.sentence._id)) {
+           this.$message.error('已收藏该句子，请勿重复收藏');
+        } else {
+          collect(id, this.sentence._id).then(res => {
+            console.log(res);
+            // 刷新管理员信息
+            if (res.data.status === 1) {
+              this.$message({
+                message: "收藏成功",
+                type: "success"
+              });
+              // this.showDisable = true;
+              // this.getAdmin();
+            }
+          });
         }
       });
     },
@@ -88,17 +84,19 @@ export default {
   },
   computed: {
     ...mapState(["adminInfo"]),
-    showCollect() {
-      return function(id) {
-        findCollection(id).then(res => {
-          let collection = res.data.data;
-          console.log(collection.posts.some(item => item._id === this.sentence._id));
-          
-          return collection.posts.some(item => item._id === this.sentence._id);
-        });
-        // return true
-      };
-    },
+    // showCollect() {
+    //   return function(id) {
+    //     findCollection(id).then(res => {
+    //       let collection = res.data.data;
+    //       console.log(
+    //         collection.posts.some(item => item._id === this.sentence._id)
+    //       );
+
+    //       return collection.posts.some(item => item._id === this.sentence._id);
+    //     });
+    //     // return true
+    //   };
+    // }
   }
 };
 </script>

@@ -5,7 +5,7 @@
         <i class="el-icon-plus">创建专辑</i>
       </div>
     </div>
-    <Collection v-for="(item) in userInfo.collections" :key="item._id" :item=item></Collection>
+    <Collection v-for="(item) in filterCollection" :key="item._id" :item=item></Collection>
     <CollectionDialog :dialogFormVisible="dialogFormVisible"></CollectionDialog>
   </div>
 </template>
@@ -30,7 +30,22 @@ export default {
     }
   },
   computed: {
-    ...mapState(["userInfo", "dialogFormVisible"])
+    ...mapState(["userInfo", "dialogFormVisible"]),
+    filterCollection() {
+      // 按发布时间降序
+      let collections = this.userInfo.collections;
+      function compare(a, b) {
+        if (a._id > b._id) {
+          return -1;//
+        } else if (a._id < b._id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+       collections.sort(compare);
+      return collections;
+    }
   }
 };
 </script>

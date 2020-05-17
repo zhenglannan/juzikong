@@ -1,7 +1,7 @@
 <template>
   <div class="homecategory">
     <ul class="homeul">
-      <li v-for="(item,index) in title" :key="index" class="homeli">{{item}}</li>
+      <li v-for="(item,index) in titles" :key="index" class="homeli" @click="$router.push('/categories/work/'+types[index])">{{item}}</li>
     </ul>
   </div>
 </template>
@@ -13,9 +13,11 @@ export default {
     return {};
   },
   props: {
-    title: {
+    titles: {
       type: Array
-    }
+    },
+    types:Array
+
   },
   methods: {}
 };
@@ -37,5 +39,6 @@ export default {
   height: 50px;
   line-height: 50px;
   border: 1px solid #e6e6e6;
+  cursor:pointer;
 }
 </style>

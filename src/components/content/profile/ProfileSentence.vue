@@ -1,10 +1,11 @@
 <template>
   <article class="scentence" v-if="showSentence">
     <div class="scenbody">
-      <p
+      <pre
         class="scenbody-post"
         @click="$router.push('/sentenceDetail/'+singalItem._id)"
-      >{{singalItem.content}}</p>
+        v-html="singalItem.content"
+      ></pre>
       <div class="scenbody-from">
         <span class="author">{{singalItem.referAuthorName}}</span>
         <span class="work">{{singalItem.referWorkName}}</span>
@@ -61,7 +62,7 @@ export default {
     showSentence() {
       if (this.profileSearch === null) {
         return true;
-      } else {
+      } else if(this.singalItem){
         return this.singalItem.content.toLowerCase().indexOf(this.profileSearch.toLowerCase()) !== -1;
       }
     }
@@ -107,6 +108,7 @@ export default {
 
 <style scoped>
 .scentence {
+  width:100%;
   padding: 15px 0;
   border-bottom: 1px solid gainsboro;
 }

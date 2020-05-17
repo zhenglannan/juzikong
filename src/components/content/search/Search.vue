@@ -15,13 +15,15 @@
 
 <script>
 import SearchSen from "./SearchSen";
-import { getAllSentence } from "network/home";
+import { getSearch } from "network/home";
 
 export default {
   name: "Search",
   data() {
     return {
-      activeName: "first"
+      activeName: "first",
+      currentPage:1,
+      pageSize:10
     };
   },
   components: {
@@ -34,15 +36,15 @@ export default {
   },
   computed: {
     filterSentences() {
-      getAllSentence().then(res => {
+      getSearch(this.$route.query.keyword,this.currentPage,this.pageSize).then(res => {
         // this.allSentences=res.data;
-        // console.log(res.data)
-        return res.data.find(item=>item.content.toLowerCase().indexOf(this.$route.query.q.toLowerCase()) === 0)
+        console.log(res.data)
+        // return res.data.find(item=>item.content.toLowerCase().indexOf(this.$route.query.q.toLowerCase()) === 0)
       });
     }
   },
   created() {   
-    console.log(this.$route.query);
+    console.log(this.$route.query.keyword);
   }
 };
 </script>

@@ -1,15 +1,12 @@
 <template>
   <div class="container">
-    <TagsControl :tags=tags @selectTab='selectTab'></TagsControl>
-    <DiscoveryContent></DiscoveryContent>
+    <TagsControl :tags=tags ></TagsControl>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import TagsControl from "common/tagsControl/TagsControl";
-import DiscoveryContent from "./children/DiscoveryContent";
-
-import { getDiscovery } from "network/discovery";
 export default {
   name: "Discovery",
   data() {
@@ -30,21 +27,11 @@ export default {
   },
   components: {
     TagsControl,
-    DiscoveryContent
   },
   methods: {
-    getDiscovery() {
-      getDiscovery().then(res => {
-        console.log(res.data);
-      });
-    },
-    selectTab(index){
-      var tag=tags[index];
-      
-    }
   },
   created() {
-    this.getDiscovery();
+        // console.log('discovery'+' '+this.$route.params);
   }
 };
 </script>

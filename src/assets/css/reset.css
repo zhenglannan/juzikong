@@ -53,27 +53,28 @@ a{
   cursor: pointer;
 }
 ::-webkit-scrollbar{
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
 }
 /* ::-webkit-scrollbar-track-piece{
   background-color: rgba(0, 0, 0, 0.2);
   -webkit-border-radius: 6px;
 } */
 ::-webkit-scrollbar-thumb:vertical{
-  height: 5px;
+  height: 10px;
   background-color: rgba(116, 85, 85, 0.7);
   -webkit-border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:horizontal{
-  width: 5px;
+  width: 10px;
   background-color: rgba(125, 125, 125, 0.7);
   -webkit-border-radius: 6px;
 }
-html, body{
+html,body{
   /* ? */
   width: 100%;
-  font-family: PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+  /* font-family:PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif; */
+  font-family:"PingFang SC","Source Han Sans SC","Noto Sans CJK SC","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -webkit-font-smoothing: antialiased;
@@ -82,7 +83,7 @@ html, body{
 }
 body{
   line-height: 1;
-  -webkit-text-size-adjust: none;
+  -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html{
@@ -123,4 +124,21 @@ button{
 }
 .right{
   float: right;
+}
+pre {
+  display: block;
+  /* font-family: inherit; */
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  /* padding: 0;
+  margin: 0;
+  font-size: 15px;
+  line-height: inherit;
+  color: inherit; */
+  word-break: break-all;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
 }

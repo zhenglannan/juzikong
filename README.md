@@ -22,7 +22,34 @@
    next();
  }) 
 ```
++ 子路由的path前面不加斜杠\
 
++ $router.push跳转界面不刷新（一般跳本界面）:watch监听$route(to),打印to
+
++ 单行文本垂直居中height=line-height
+
++ pre自动换行要设置    white-space: pre-wrap;
+
++ 导航组件重复点击报错 NavigationDuplicated(也就是说这是vue-router3.1版本之后，对于航组件重复点击的一个错误处理方式。)
+   - 降版
+   - 禁止全局路由错误处理打印(在引用VueRouter处添加)
+     + ```const originalPush = VueRouter.prototype.push
+          VueRouter.prototype.push = function push(location, onResolve, onReject) {
+            if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+            return originalPush.call(this, location).catch(err => err)
+          }
+
+          const originalReplace = VueRouter.prototype.replace
+          VueRouter.prototype.replace = function repalce(location, onResolve, onReject) {
+            if (onResolve || onReject) return originalReplace.call(this, location, onResolve, onReject)
+            return originalReplace.call(this, location).catch(err => err)
+          }```    
+   - 为每一个增加回调函数
+     + ```this.$router.push('/location').catch(err => {err});```
+     + ```this.$router.replace('/location').catch(err => {err});```
+
+
+     
 ## Project setup
 ```
 npm install

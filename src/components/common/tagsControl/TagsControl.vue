@@ -5,7 +5,12 @@
         <a :class="{active:currentIndex===index}"> {{item}}</a>
       </li>
     </ul>
+    
   </div>
+  <!-- <el-breadcrumb separator="/"> -->
+  <!-- <el-breadcrumb-item :to="{ path: '/DiscoveryContent/hot' }">首页</el-breadcrumb-item> -->
+  <!-- <el-breadcrumb-item v-for="(item,index) in tags" :key="index" :to="{ path: '/discovery/'+item }">{{item}}</el-breadcrumb-item> -->
+<!-- </el-breadcrumb> -->
 </template>
 
 <script>
@@ -13,34 +18,19 @@ export default {
   name: "TagsControl",
   data() {
     return {
+      // 需要sessionStorage临时存储？？界面刷新
+      // currentIndex需要在这个界面刷新时不变
       currentIndex:0
     };
   },
   props: {
-    tags: {
-      type: Array,
-      // default() {
-      //   return [
-      //     "热门",
-      //     "最新",
-      //     "原创",
-      //     "精选",
-      //     "搞笑",
-      //     "语录",
-      //     "生活",
-      //     "歌词",
-      //     "电影",
-      //     "英语",
-      //     "随笔",
-      //     "诗词"
-      //   ];
-      // }
-    }
+    tags: Array
   },
   methods: {
     selectTab(index){
       this.currentIndex=index;
-      this.$emit('selectTab',index)
+      this.$router.push('/discovery/'+this.tags[index])
+      // this.$emit('selectTab',index)
     }
   }
 };

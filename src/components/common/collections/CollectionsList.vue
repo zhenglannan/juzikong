@@ -1,6 +1,11 @@
 <template>
   <div class="collectionslist">
-    <CollectionsListItem v-for="(item,index) in list" :key="index" :item="item"></CollectionsListItem>
+    <div v-if="type">
+      <CollectionsListItem v-for="(item,index) in list" :key="index" :item="item"></CollectionsListItem>
+    </div>
+    <div v-else>
+      <CollectionAuthorItem v-for="(item,index) in list" :key="index" :item="item"></CollectionAuthorItem>
+    </div>
     <footer class="pagination">
       <el-pagination
         background
@@ -16,8 +21,15 @@
 </template>
 
 <script>
-import { getWorkCollection } from "network/category";
+import {
+  getWorkCollection,
+  getAuthorCountry,
+  getAuthorDynasty,
+  getAuthorJob
+} from "network/category";
 import CollectionsListItem from "./CollectionsListItem";
+import CollectionAuthorItem from "./CollectionAuthorItem";
+
 export default {
   name: "CollectionsList",
   data() {
@@ -26,6 +38,7 @@ export default {
       currentPage: 1,
       total: null,
       list: [],
+      // authorList: [],
       currentType: ""
     };
   },
@@ -35,10 +48,13 @@ export default {
       default() {
         return "";
       }
-    }
+    },
+    authorType: String,
+    exactAuthorType: String
   },
   components: {
-    CollectionsListItem
+    CollectionsListItem,
+    CollectionAuthorItem
   },
   methods: {
     // 当前改变----当前页码改变之后，触发这个函数
@@ -48,21 +64,51 @@ export default {
       this.getCollection(this.currentType);
     },
     // 获取对应type数据
-    getCollection(type) {
-      getWorkCollection(type, this.currentPage, this.pageSize).then(res => {
-        this.total = res.data.total;
-        this.list = res.data.data;
-      });
+    getCollection(realType) {
+      if (this.type) {
+        getWorkCollection(realType, this.currentPage, this.pageSize).then(res => {
+          this.total = res.data.total;
+          this.list = res.data.data;
+        });
+      }else if (this.exactAuthorType === "country") {
+        getAuthorCountry(realType, this.currentPage, this.pageSize).then(res => {
+          this.total = res.data.total;
+          this.list = res.data.data;
+        });
+      } else if (this.exactAuthorType === "dynasty") {
+        getAuthorDynasty(realType, this.currentPage, this.pageSize).then(res => {
+          this.total = res.data.total;
+          this.list = res.data.data;
+        });
+      } else if (this.exactAuthorType === "job") {
+        getAuthorJob(realType, this.currentPage, this.pageSize).then(res => {
+          this.total = res.data.total;
+          this.list = res.data.data;
+        });
+      }
     }
   },
   created() {
-    this.getCollection(this.type);
+    if (this.type) {
+      this.getCollection(this.type);
+    } else {
+      // console.log(123+this.authorType);
+      // console.log(this.exactAuthorType);
+      
+      this.getCollection(this.authorType);
+      // this.currentType = this.authorType
+    }
   },
   watch: {
     // 监听props属性的变化
     type(newVal) {
       (this.currentType = newVal), this.getCollection(this.currentType);
-    }
+    },
+    authorType(newVal) {
+      // console.log('newval'+" "+newVal);
+      
+      (this.currentType = newVal), this.getCollection(this.currentType);
+    },
   },
   computed: {
     // 当不足一页隐藏pager
@@ -83,6 +129,7 @@ export default {
   flex-wrap: wrap; */
   padding: 20px;
   overflow: hidden;
+  background: #ffffff;
 }
 .pagination {
   margin: 20px 0;

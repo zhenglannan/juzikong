@@ -4,7 +4,7 @@
     <slot name="header"></slot>
 
     <div class="scenbody">
-      <p class="scenbody-post" @click="$router.push('/sentenceDetail/'+item._id)">{{item.content}}</p>
+      <pre class="scenbody-post" @click="$router.push('/sentenceDetail/'+item._id)">{{item.content}}</pre>
       <div class="scenbody-from">
         <span class="author">{{item.referAuthorName}}</span>
         <span class="work">{{item.referWorkName}}</span>
@@ -30,8 +30,8 @@
           </a>
           <span class="number">{{item.cntLike}}</span>
         </span>
-        <span class="right">
-          <a>
+        <span class="right" >
+          <a @click="addToCollection()">
             <img class="addAlbum" src="~assets/img/home/addAlbum.svg" />
           </a>
         </span>
@@ -48,19 +48,31 @@
         </ul>
       </slot>
     </footer>
+     <AddToCollection
+      :dialogFormVisible="dialogFormVisible"
+      :sentence="singalItem"
+      @childClose="childPostClose"
+    ></AddToCollection>
   </article>
 </template>
 
 <script>
 import { findSentence, setLike, removeLike ,comment} from "network/session";
 import { mapState, mapActions } from "vuex";
+import AddToCollection from "content/dialog/AddToCollection";
+
 export default {
   name: "Sentence",
   data() {
     return {
-      item: null,
-      text:''
+      item: this.singalItem,
+      text:'',
+      dialogFormVisible: false,
+      // sentence:
     };
+  },
+  components:{
+AddToCollection
   },
   props: {
     singalItem: Object
@@ -118,6 +130,7 @@ export default {
         });
       }
     },
+    // 评论
     giveComment(id){
       comment(id, this.text).then(res => {
         console.log(res);
@@ -125,15 +138,28 @@ export default {
           alert(res.data.message);
           // 设置文本框为空，更新评论信息??
           this.text = "";
+          this.updateSentence();
         }
       });
+    },
+    // 收藏
+    addToCollection() {
+      this.dialogFormVisible = true;
+    },
+    childPostClose() {
+      this.dialogFormVisible = false;
+    },
+    updateSentence(){
+      findSentence(this.singalItem._id).then(res=>{
+        this.item=res.data.data;
+      })
     }
   },
   created() {
-    findSentence(this.singalItem._id).then(res => {
-      // console.log(res);
-      this.item = res.data.data;
-    });
+    // findSentence(this.singalItem._id).then(res => {
+    //   // console.log(res);
+    //   this.item = res.data.data;
+    // });
   }
 };
 </script>
