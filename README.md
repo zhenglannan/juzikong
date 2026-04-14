@@ -1,4 +1,4 @@
-# juzikong
+# 仿句子控网站
 
 + localStorage.setItem(key, String), set的值必须是字符串，如果你的数据是对象都需要先行转换（JSON.stringify(xxx)）,取出时localStorage.getItem(key)，如果不是字符串，取出后可以通过JSON.parse(xxx)转回对象。
 
